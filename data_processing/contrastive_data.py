@@ -47,6 +47,21 @@ class ContrastiveData:
             train_data = labels_to_centers(train_data,10)
             test_data = labels_to_centers(test_data,10)
 
+        elif dataset_name == "CIFAR10":
+            train_data = datasets.CIFAR10(self.data_directory, train=True, download=True,
+                                        transform=transforms.Compose([
+                                            transforms.ToTensor(),
+                                            transforms.Normalize([0.4914, 0.4822, 0.4465],[0.2023, 0.1994, 0.2010])
+                                        ]))
+            test_data = datasets.CIFAR10(self.data_directory, train=False, transform=transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Normalize([0.4914, 0.4822, 0.4465],[0.2023, 0.1994, 0.2010])
+            ]))
+
+            train_data = labels_to_centers(train_data,10)
+            test_data = labels_to_centers(test_data,10)
+
+
         elif dataset_name == "Projection":
             train_data = ProjectionData(self.data_directory,train = True,num_clusters=self.num_clusters)
             test_data = ProjectionData(self.data_directory,train = False,num_clusters=self.num_clusters)
