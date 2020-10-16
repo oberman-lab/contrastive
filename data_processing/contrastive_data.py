@@ -24,7 +24,6 @@ class ContrastiveData:
                                         transform=transforms.Compose([
                                             transforms.ToTensor(),
                                             transforms.Normalize((0.1307,), (0.3081,))
-                                            # Where do these numbers come from?
                                         ]))
             test_data = datasets.MNIST(self.data_directory, train=False, transform=transforms.Compose([
                 transforms.ToTensor(),
@@ -33,7 +32,21 @@ class ContrastiveData:
 
             train_data = labels_to_centers(train_data,10)
             test_data = labels_to_centers(test_data,10)
-            
+
+        elif dataset_name == "Fashion-MNIST":
+            train_data = datasets.FashionMNIST(self.data_directory, train=True, download=True,
+                                        transform=transforms.Compose([
+                                            transforms.ToTensor(),
+                                            transforms.Normalize((0.2860,), (0.3205,))
+                                        ]))
+            test_data = datasets.FashionMNIST(self.data_directory, train=False, transform=transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Normalize((0.2860,), (0.3205,))
+            ]))
+
+            train_data = labels_to_centers(train_data,10)
+            test_data = labels_to_centers(test_data,10)
+
         elif dataset_name == "Projection":
             train_data = ProjectionData(self.data_directory,train = True,num_clusters=self.num_clusters)
             test_data = ProjectionData(self.data_directory,train = False,num_clusters=self.num_clusters)
