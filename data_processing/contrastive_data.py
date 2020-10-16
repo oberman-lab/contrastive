@@ -30,6 +30,10 @@ class ContrastiveData:
                 transforms.ToTensor(),
                 transforms.Normalize((0.1307,), (0.3081,))
             ]))
+
+            train_data = labels_to_centers(train_data,10)
+            test_data = labels_to_centers(test_data,10)
+            
         elif dataset_name == "Projection":
             train_data = ProjectionData(self.data_directory,train = True,num_clusters=self.num_clusters)
             test_data = ProjectionData(self.data_directory,train = False,num_clusters=self.num_clusters)
@@ -57,6 +61,19 @@ class ContrastiveData:
         return {'labeled': labeled_loader, 'unlabeled': unlabeled_loader, 'test': test_loader}
 
 
+class labels_to_centers(Dataset):
+    ''' Simple class to convert labels from digits to one-hot centers'''
+
+    def __init__(self, input_dataset: Dataset,num_categories: int):
+        self.input_dataset = input_dataset
+        self.eye = torch.eye(num_categories)
+
+    def __len__(self):
+        return len(self.input_dataset)
+
+    def __getitem__(self, idx:int):
+        item, label = self.input_dataset.__getitem__(idx)
+        return item, self.eye[label]
 
 class UnlabeledDataset(Dataset):
     '''simple class that takes a dataset and strips its labels'''
@@ -135,7 +152,7 @@ class ProjectionData(Dataset):
         shuffle_idx =torch.randperm(data.size()[0])
         data = data[shuffle_idx]
         labels = labels[shuffle_idx]
-        
+
         training_data,test_data = torch.split(data,[num_train_samples,len(data) - num_train_samples])
         training_labels,test_labels = torch.split(labels,[num_train_samples,len(data) - num_train_samples])
 

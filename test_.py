@@ -46,6 +46,9 @@ def test_labelsStrippedMNIST():
 def test_loadMNIST():
     try:
         dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'MNIST', **kwargs).get_data_loaders()
+
+        for i,(data,label) in enumerate(dataLoaders['labeled']):
+            print(label)
     except Exception:
         print(traceback.print_exc())
         pytest.fail("Loading MNIST failed")
