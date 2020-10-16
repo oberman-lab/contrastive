@@ -10,6 +10,7 @@ This repo is intended to to serve as a framework for comparing loss functions in
   - Projection Dataset
   
   - TODO: MNIST
+  - TODO: Fashion MNIST
   - TODO: CIFAR-10
  
   --------------------------------------------------------------------------------
@@ -29,9 +30,16 @@ This repo is intended to to serve as a framework for comparing loss functions in
  
 
  
- The classic [MNIST](http://yann.lecun.com/exdb/mnist/) dataset of handwritten decimal digits. 
+ The classic [MNIST](http://yann.lecun.com/exdb/mnist/) dataset of handwritten decimal digits. MNIST is an easy dataset to learn. If a method doesn't work here, it probably won't work anywhere.
+
+ --------------------------------------------------------------------------------
+ ### Fashion MNIST (TODO)
+ Inputs of size 28x28x1
+ 
+ The [Fashion MNIST](https://github.com/zalandoresearch/fashion-mnist) dataset meant to be a harder substitute for MNIST.
  
  This dataset is intented to be the first 'real' dataset for proof of concept training. 
+
 
  --------------------------------------------------------------------------------
 ### CIFAR-10
@@ -40,4 +48,4 @@ Inputs of size 32x32x3
 
 The [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html) dataset of color images in 10 categories. 
 
-The next step from MNIST with the same number of categories but much harder to classify.
+The next step from Fashion MNIST with the same number of categories but much harder to classify.
