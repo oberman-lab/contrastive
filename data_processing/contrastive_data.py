@@ -109,7 +109,7 @@ class ProjectionData(Dataset):
 
 
     def generate(self, num_train_samples, num_test_samples):
-        ''' generates 60000 training examples and 10000 testing examples with labels'''
+        ''' generates num_train_samples training examples and num_test_samples testing examples with labels'''
         # TODO Generate labels
         k = self.num_clusters
         path = os.path.join(self.datafolder)
@@ -131,6 +131,11 @@ class ProjectionData(Dataset):
 
         data = torch.cat(data)
         labels = torch.cat(labels)
+
+        shuffle_idx =torch.randperm(data.size()[0])
+        data = data[shuffle_idx]
+        labels = labels[shuffle_idx]
+        
         training_data,test_data = torch.split(data,[num_train_samples,len(data) - num_train_samples])
         training_labels,test_labels = torch.split(labels,[num_train_samples,len(data) - num_train_samples])
 

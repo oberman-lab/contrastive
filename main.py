@@ -29,9 +29,7 @@ parser.add_argument('--frac-labeled', type=float, default=0.1, metavar='FL',
 parser.add_argument('--num-clusters', type=int, default=5, metavar='NC',
                     help='Number of clusters to expect')
 parser.add_argument('--data-dir', type=str, default='./data', metavar='DIR')
-
 parser.add_argument('--log-interval', type=int, default=100, metavar='LOGI')
-
 parser.add_argument('--loss-function', type=str, default='MSELoss', metavar='LF')
 args = parser.parse_args()
 args.cuda = torch.cuda.is_available()
@@ -73,7 +71,7 @@ class SimpleNet(nn.Module):  # With Projection data we should see the identity m
 
 MSELoss = torch.nn.MSELoss()
 loss_function = MSELoss
-args.loss_function = args.loss_function
+
 
 num_clusters = args.num_clusters
 eye = torch.eye(2 * num_clusters, 2 * num_clusters)
@@ -83,16 +81,13 @@ data = ContrastiveData(args.frac_labeled, args.data_dir,batch_size_labeled=args.
                        num_clusters=num_clusters, **kwargs)
 data_loaders = data.get_data_loaders()
 
-
+# Define model and accesories
 model = SimpleNet(num_clusters)
 optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-
-args.loss_function = locals()[args.loss_function] #Get the reference of the loss function
 
 if args.cuda:
     model.cuda()
     centers.cuda()
-
 
 def train_jointly(epoch, centers, loss_function=None, **kwargs):
     model.train()
@@ -101,7 +96,6 @@ def train_jointly(epoch, centers, loss_function=None, **kwargs):
     # The number of times that the labeled data is processed is dependent on the batch size of the labeled data.
     #for batch_ix, unlabeled_features in enumerate(data_loaders['unlabeled']):
     for batch_ix, (unlabeled_features, (labeled_features, labels)) in enumerate(cycle_with(leader=data_loaders['unlabeled'], follower=data_loaders['labeled'])):
-        pass
         if args.cuda:
             unlabeled_features, labeled_features, labels, centers = unlabeled_features.cuda(), labeled_features.cuda(), labels.cuda(), centers.cuda()
 
@@ -116,47 +110,11 @@ def train_jointly(epoch, centers, loss_function=None, **kwargs):
             print('[Epoch %2d, batch %3d] training loss: %.4f' %
                   (epoch, batch_ix, loss))
 
-    #print(time.time()- t0)
-    #t0 = time.time()
-    #for batch_ix, elt in enumerate(data_loaders['unlabeled']):
-    #    pass
-    #for batch_ix, elt in enumerate(data_loaders['labeled']):
-    #    pass
-    #print(time.time() - t0)
-    #print("end")
-
 def basic_loss(unlabeled_output, labeled_output, labels, centers):
     return MSELoss(labeled_output, labels) + MSELoss(unlabeled_output, returnClosestCenter(centers, unlabeled_output))
 
-def train(epoch, centers):
-    model.train()
-    # Train on labeled data first
-    for batch_ix, (data, target) in enumerate(data_loaders['labeled']):
-        if args.cuda:
-            data, target = data.cuda(), target.cuda()
-
-        optimizer.zero_grad()
-        output = model(data)
-        loss = loss_function(output, target)
-        loss.backward()
-        optimizer.step()
-        #if batch_ix % 100 == 0 and batch_ix > 0:
-        #    print('[Epoch %2d, batch %3d] training loss: %.4f' %
-        #          (epoch, batch_ix, loss.data[0]))
-
-    for batch_ix, (data) in enumerate(data_loaders['unlabeled']):
-        if args.cuda:
-            data, centers = data.cuda(), centers.cuda()
-        optimizer.zero_grad()
-        output = model(data)
-        loss = loss_function(output, returnClosestCenter(centers, data))
-        loss.backward()
-        optimizer.step()
-
 
 initial_weights = model.net[0].weight.clone()
-
-
 def test():
     model.eval()
     test_loss = tnt.meter.AverageValueMeter()
@@ -167,33 +125,13 @@ def test():
             output = model(data)
             loss = loss_function(output, target)
             test_loss.add(loss.cpu())
-
     print('[Epoch %2d] Average test loss: %.5f'
           % (epoch, test_loss.value()[0]))
 
 
 if __name__ == "__main__":
-
-
-
     for epoch in range(1, args.epochs + 1):
-
-        #t0 = time.time()
-        #train(epoch, centers)
-        #print(time.time() - t0)
         t0 = time.time()
         train_jointly(epoch, centers, loss_function=basic_loss)
         print(time.time() - t0)
-        #test()
-    # with torch.no_grad():
-    #     # print('Initial Model Weights')
-    #     # print(initial_weights.t())
-    #     # lin_weights = model.net[0].weight
-    #     # print('Trained Model Weights')
-    #     # print(lin_weights.t())  # Very interesting how it didn't learn the standard projection matrix
-    #     testPoint = centers[0,:].clone() + torch.cat((torch.zeros(num_clusters),torch.randn(num_clusters)))
-    #     print('Testing point to evaluate')
-    #     print(testPoint)
-    #     print('Model\'s Prediction')
-    #     print(model(testPoint))
-    # print(torch.sum(lin_weights,0))
+        test()
