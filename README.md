@@ -3,7 +3,7 @@
 This repo is intended to to serve as a framework for comparing loss functions in a semi-supervised learning context. 
 
 ## TODO
- - [ ] Define architecture for image datasets (Use Chris's Implementation of LeNet from Hello World)
+ - [ ] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
  - [ ] Modularize loss classes
  - [ ] Expand on paper list below
 
