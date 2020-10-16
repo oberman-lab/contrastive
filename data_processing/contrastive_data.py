@@ -9,9 +9,10 @@ from torchvision import datasets, transforms
 class ContrastiveData:
     '''Takes care of data for contrastive purposes'''
 
-    def __init__(self, batch_size,fraction_labeled,data_directory, dataset_name="MNIST",num_clusters=5, **kwargs):
+    def __init__(self,fraction_labeled,data_directory,batch_size_labeled = 32, batch_size_unlabeled=32, dataset_name="MNIST",num_clusters=5, **kwargs):
         # Import train data
-        self.batch_size = batch_size
+        self.batch_size_labeled = batch_size_labeled
+        self.batch_size_unlabeled = batch_size_unlabeled
         self.fraction_labeled = fraction_labeled
         self.data_directory = data_directory
         self.kwargs = kwargs
@@ -45,9 +46,9 @@ class ContrastiveData:
     def get_data_loaders(self):
         '''Get data loaders'''
 
-        labeled_loader = torch.utils.data.DataLoader(self.labeled_train_data, batch_size=self.batch_size, shuffle=True,
+        labeled_loader = torch.utils.data.DataLoader(self.labeled_train_data, batch_size=self.batch_size_labeled, shuffle=True,
                                                      **self.kwargs)
-        unlabeled_loader = torch.utils.data.DataLoader(self.unlabeled_train_data, batch_size=self.batch_size,
+        unlabeled_loader = torch.utils.data.DataLoader(self.unlabeled_train_data, batch_size=self.batch_size_unlabeled,
                                                        shuffle=True,
                                                        **self.kwargs)
         test_loader = torch.utils.data.DataLoader(
@@ -84,7 +85,7 @@ class ProjectionData(Dataset):
 
         if not self._check_exists():
             print('Dataset not found: Generating new data')
-            self.generate()
+            self.generate(60000, 10000)
 
 
         if self.train:
@@ -107,14 +108,14 @@ class ProjectionData(Dataset):
                                             self.test_file)))
 
 
-    def generate(self):
-        ''' generates 60000 training examples and 10000 testing examples with labels'''
+    def generate(self, num_train_samples, num_test_samples):
+        ''' generates num_train_samples training examples and num_test_samples testing examples with labels'''
         # TODO Generate labels
         k = self.num_clusters
         path = os.path.join(self.datafolder)
         os.makedirs(path, exist_ok=True)
 
-        samples_per_category = 70000//k
+        samples_per_category = (num_train_samples + num_test_samples)//k
         eyes = torch.eye(k)
 
         data = []
@@ -130,8 +131,13 @@ class ProjectionData(Dataset):
 
         data = torch.cat(data)
         labels = torch.cat(labels)
-        training_data,test_data = torch.split(data,[60000,len(data) - 60000])
-        training_labels,test_labels = torch.split(labels,[60000,len(data) - 60000])
+
+        shuffle_idx =torch.randperm(data.size()[0])
+        data = data[shuffle_idx]
+        labels = labels[shuffle_idx]
+        
+        training_data,test_data = torch.split(data,[num_train_samples,len(data) - num_train_samples])
+        training_labels,test_labels = torch.split(labels,[num_train_samples,len(data) - num_train_samples])
 
         with open(os.path.join(self.datafolder, self.training_file), 'wb') as f:
             torch.save((training_data,training_labels), f)
