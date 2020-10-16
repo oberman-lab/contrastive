@@ -2,13 +2,8 @@
 
 This repo is intended to to serve as a framework for comparing loss functions in a semi-supervised learning context. 
 
-### Interesting related papers
+## Interesting related papers
 - [MixMatch: A Holistic Approach to Semi-Supervised Learning](https://arxiv.org/abs/1905.02249)
-
-
-
-
-
 
 
 ## Current Supported Datasets
@@ -16,6 +11,7 @@ This repo is intended to to serve as a framework for comparing loss functions in
   
   - TODO: MNIST
   - TODO: CIFAR-10
+ 
  
  ### Projection Dataset:
  Inputs of size 1x2n.
