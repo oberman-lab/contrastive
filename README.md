@@ -5,6 +5,7 @@ This repo is intended to to serve as a framework for comparing loss functions in
 ## TODO
  - [ ] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
  - [ ] Modularize loss classes
+ - [ ] Add data augmentation capabilities
  - [ ] Implement more robust, detailed logging
  - [ ] Expand on paper list below
 
