@@ -2,10 +2,8 @@ import torch
 import torchnet as tnt
 
 from data_processing import cycle_with
-from main import data_loaders, args, epoch
 
-
-def run_epoch(model, current_epoch, optimizer, device, loss_function=None):
+def run_epoch(model, current_epoch, data_loaders, optimizer, device, args, loss_function=None):
     model.train()
     # We loop over all batches in the (bigger) unlabeled set. While we do so we loop also on the labeled data, starting over if necessary.
     # This means that unlabeled data may be present many times in the same epoch.
@@ -30,7 +28,7 @@ def run_epoch(model, current_epoch, optimizer, device, loss_function=None):
                   (current_epoch, batch_ix, loss))
 
 
-def test_model(model, loss_function, device):
+def test_model(model,current_epoch, data_loaders, loss_function, device):
     # Define model and accesories
     model.eval()
     test_loss = tnt.meter.AverageValueMeter()
@@ -42,4 +40,4 @@ def test_model(model, loss_function, device):
             loss = loss_function(output, target)
             test_loss.add(loss.cpu())
     print('[Epoch %2d] Average test loss: %.5f'
-          % (epoch, test_loss.value()[0]))
+          % (current_epoch, test_loss.value()[0]))
