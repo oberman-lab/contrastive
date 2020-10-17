@@ -1,4 +1,3 @@
-
 import torch
 import argparse
 import pytest
@@ -34,25 +33,30 @@ args = parser.parse_args()
 args.cuda = torch.cuda.is_available()
 kwargs = {'num_workers': 1, 'pin_memory': True} if args.cuda else {}
 
-
 ''' Testing functions below here '''
+
 
 def test_labelsStrippedMNIST():
     '''If the labels are stripped, the first element '''
-    dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'Projection', **kwargs).get_data_loaders()
-    test= iter(dataLoaders['unlabeled'])
+    dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, args.batch_size_labeled, args.batch_size_unlabeled,
+                                  dataset_name='Projection', **kwargs).get_data_loaders()
+    test = iter(dataLoaders['unlabeled'])
     assert (type(next(test)) is not list), 'The labels were not stripped off'
+
 
 def test_loadMNIST():
     try:
-        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'MNIST', **kwargs).get_data_loaders()
+        dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, args.batch_size_labeled,
+                                      args.batch_size_unlabeled, dataset_name='MNIST', **kwargs).get_data_loaders()
     except Exception:
         print(traceback.print_exc())
         pytest.fail("Loading MNIST failed")
 
+
 def test_loadProjection():
     try:
-        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'Projection', **kwargs).get_data_loaders()
+        dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, args.batch_size_labeled,
+                                      args.batch_size_unlabeled, dataset_name='Projection', **kwargs).get_data_loaders()
     except Exception:
         print(traceback.print_exc())
         pytest.fail("Loading ProjectionDataset failed")
@@ -60,13 +64,27 @@ def test_loadProjection():
 
 def test_badData():
     with pytest.raises(ValueError) as context:
-        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = '!@##$$)*^!^@##@****!!@GDTGENOTADATASET', **kwargs)
-    assert  "Dataset name is not supported" in str(context)
+        dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, args.batch_size_labeled,
+                                      args.batch_size_unlabeled, dataset_name='!@##$$)*^!^@##@****!!@GDTGENOTADATASET',
+                                      **kwargs)
+    assert "Dataset name is not supported" in str(context)
+
 
 def test_genProjectionData():
-    import shutil # Don't want this to have access outside of this function
+    import shutil  # Don't want this to have access outside of this function
     path = 'tempDirectoryForTesting'
-    data = ProjectionData(path,train = True,num_clusters=10)
+    data = ProjectionData(path, train=True, num_clusters=10)
     item, label = data.__getitem__(0)
     shutil.rmtree(path)  # Removes directory to force data generation
     assert label.size() == item.size(), 'Couldn\'t generate ProjectionData'
+
+
+def test_cycle_with():
+    from data_processing.utils import cycle_with
+    unlabeled = [1, 2, 3, 4, 5, 6, 7]
+    labeled = [1, 2, 3]
+    result = [(1, 1), (2, 2), (3, 3), (4, 1), (5, 2), (6, 3), (7, 1)]
+    check = []
+    for elt in cycle_with(unlabeled, labeled):
+        check.append(elt)
+    assert check == result, "Iterator not working"

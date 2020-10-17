@@ -96,6 +96,9 @@ class ProjectionData(Dataset):
 
     def __getitem__(self,idx:int):
         item,label = self.data[idx],self.labels[idx]
+        if torch.cuda.is_available():
+            item.cuda()
+            label.cuda()
         return item,label
 
     def __len__(self):
