@@ -16,9 +16,9 @@ if torch.cuda.is_available():
     device = torch.device('cuda')
     args.cuda = True
 kwargs = {'num_workers': 0, 'pin_memory': True} if args.cuda else {}
+
+
 ''' Testing functions below here '''
-
-
 
 def test_labelsStrippedMNIST():
     '''If the labels are stripped, the first element '''
