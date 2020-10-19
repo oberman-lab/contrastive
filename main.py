@@ -3,7 +3,7 @@ import torch
 import torch.optim as optim
 
 from losses.losses import make_semi_sup_basic_loss
-from nets import SimpleNet
+from nets import *
 from procedures import run_epoch, test_model
 from data_processing.utils import *
 from data_processing.contrastive_data import ContrastiveData
@@ -35,12 +35,12 @@ if __name__ == "__main__":
 
     # Get data
     data = ContrastiveData(args.frac_labeled, args.data_dir, batch_size_labeled=args.batch_size_labeled,
-                           batch_size_unlabeled=args.batch_size_unlabeled, dataset_name='Projection',
+                           batch_size_unlabeled=args.batch_size_unlabeled, dataset_name='MNIST',
                            num_clusters=num_clusters, **kwargs)
     data_loaders = data.get_data_loaders()
 
     # Define model and accesories
-    model = SimpleNet(num_clusters, device)
+    model = LeNet(args.dropout,device)
     loss_function = make_semi_sup_basic_loss(centers)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
