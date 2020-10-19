@@ -43,7 +43,7 @@ def test_loadMNIST():
 
 def test_loadFashionMNIST():
     try:
-        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'Fashion-MNIST', **kwargs).get_data_loaders()
+        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'FashionMNIST', **kwargs).get_data_loaders()
 
         for i,(data,label) in enumerate(dataLoaders['labeled']):
             print(label)
