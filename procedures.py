@@ -1,6 +1,5 @@
 import torch
 import torchnet as tnt
-
 from data_processing import cycle_with
 
 def run_epoch(model, current_epoch, data_loaders, optimizer, device, args, loss_function=None):
