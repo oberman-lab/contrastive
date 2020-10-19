@@ -49,5 +49,4 @@ if __name__ == "__main__":
         run_epoch(model, epoch,data_loaders, optimizer, device,args , loss_function=loss_function)
         test_model(model,epoch,data_loaders, MSELoss(), device)
         print(time.time() - t0)
-
-    print(model.net[0].weight)
+    
