@@ -2,39 +2,23 @@ import torch
 import argparse
 import pytest
 import traceback
+from arg_parser import ContrastiveArgParser
 from data_processing.contrastive_data import *
 
 ''' Install pytest - navigate to this directory - call pytest - pray nothing broke'''
 
-# Parse arguments
-parser = argparse.ArgumentParser(description='Constrastive Learning Experiment')
-parser.add_argument('--batch-size-labeled', type=int, default=8, metavar='NL',
-                    help='input labeled batch size for training (default: 128)')
-
-parser.add_argument('--batch-size-unlabeled', type=int, default=8, metavar='NU',
-                    help='input unlabeled batch size for training (default: 128)')
-
-parser.add_argument('--epochs', type=int, default=5, metavar='N',
-                    help='number of epochs to train (default: 10)')
-parser.add_argument('--lr', type=float, default=0.001, metavar='LR',
-                    help='learning rate (default: 0.1)')
-parser.add_argument('--dropout', type=float, default=0.25, metavar='P',
-                    help='dropout probability (default: 0.25)')
-parser.add_argument('--momentum', type=float, default=0.9, metavar='M',
-                    help='heavy ball momentum in gradient descent (default: 0.9)')
-parser.add_argument('--frac-labeled', type=float, default=0.1, metavar='FL',
-                    help='Fraction of labeled data (default 0.01))')
-parser.add_argument('--num-clusters', type=int, default=5, metavar='NC',
-                    help='Number of clusters to expect')
-parser.add_argument('--data-dir', type=str, default='./data', metavar='DIR')
-parser.add_argument('--log-interval', type=int, default=100, metavar='LOGI')
-parser.add_argument('--loss-function', type=str, default='MSELoss', metavar='LF')
+parser = ContrastiveArgParser()
 args = parser.parse_args()
-args.cuda = torch.cuda.is_available()
-kwargs = {'num_workers': 1, 'pin_memory': True} if args.cuda else {}
+args.cuda =False #False until proven otherwise
+
+device = torch.device('cpu')
+if torch.cuda.is_available():
+    device = torch.device('cuda')
+    args.cuda = True
+kwargs = {'num_workers': 0, 'pin_memory': True} if args.cuda else {}
+
 
 ''' Testing functions below here '''
-
 
 def test_labelsStrippedMNIST():
     '''If the labels are stripped, the first element '''
@@ -59,7 +43,7 @@ def test_loadMNIST():
 
 def test_loadFashionMNIST():
     try:
-        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'Fashion-MNIST', **kwargs).get_data_loaders()
+        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'FashionMNIST', **kwargs).get_data_loaders()
 
         for i,(data,label) in enumerate(dataLoaders['labeled']):
             print(label)

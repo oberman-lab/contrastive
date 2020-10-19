@@ -1,4 +1,4 @@
-from data_processing.losses.helpers import returnClosestCenter
+from losses.helpers import returnClosestCenter
 from torch.nn import MSELoss
 
 
@@ -11,4 +11,3 @@ def make_semi_sup_basic_loss(centers):
                                                                  returnClosestCenter(centers, unlabeled_output))
 
     return basic_loss
-

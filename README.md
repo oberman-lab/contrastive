@@ -6,7 +6,8 @@ This repo is intended to to serve as a framework for comparing loss functions in
  - [ ] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
  - [ ] Modularize loss classes
  - [ ] Add data augmentation capabilities
- - [ ] Implement more robust, detailed logging (UML Perhaps)
+ - [ ] UML (ish) diagram
+ - [ ] Implement more robust, detailed logging
  - [ ] Expand on paper list below
  - [ ] Visualization for Toy example (projection); use to compare losses longterm.
  - [ ] Brainstorm Several Losses for comparison
