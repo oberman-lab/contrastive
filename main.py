@@ -40,7 +40,11 @@ if __name__ == "__main__":
     data_loaders = data.get_data_loaders()
 
     # Define model and accesories
-    model = LeNet(args.dropout,device)
+    if args.dataset == 'Projection':
+        model = SimpleNet(args.num_clusters,device)
+    else:
+        model = LeNet(args.dropout,device)
+
     loss_function = make_semi_sup_basic_loss(centers)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
@@ -48,4 +52,4 @@ if __name__ == "__main__":
         t0 = time.time()
         run_epoch(model, epoch,data_loaders, optimizer, device,args , loss_function=loss_function)
         test_model(model,epoch,data_loaders, MSELoss(), device)
-        print('Wall clock time for epoch: {}'.format(time.time() - t0))
+        print('Wall clock time for epoch: {}'.format(time.time() - t0))    
