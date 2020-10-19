@@ -48,5 +48,4 @@ if __name__ == "__main__":
         t0 = time.time()
         run_epoch(model, epoch,data_loaders, optimizer, device,args , loss_function=loss_function)
         test_model(model,epoch,data_loaders, MSELoss(), device)
-        print(time.time() - t0)
-    
+        print('Wall clock time for epoch: {}'.format(time.time() - t0))
