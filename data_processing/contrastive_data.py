@@ -33,7 +33,7 @@ class ContrastiveData:
             train_data = labels_to_centers(train_data,10)
             test_data = labels_to_centers(test_data,10)
 
-        elif dataset_name == "Fashion-MNIST":
+        elif dataset_name == "FashionMNIST":
             train_data = datasets.FashionMNIST(self.data_directory, train=True, download=True,
                                         transform=transforms.Compose([
                                             transforms.ToTensor(),
@@ -141,6 +141,9 @@ class ProjectionData(Dataset):
 
     def __getitem__(self,idx:int):
         item,label = self.data[idx],self.labels[idx]
+        if torch.cuda.is_available():
+            item.cuda()
+            label.cuda()
         return item,label
 
     def __len__(self):
