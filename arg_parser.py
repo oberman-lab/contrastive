@@ -20,7 +20,7 @@ class ContrastiveArgParser(argparse.ArgumentParser):
                           help='Fraction of labeled data (default 0.01))')
         self.add_argument('--num-clusters', type=int, default=5, metavar='NC',
                           help='Number of clusters to expect')
-        self.add_argument('--dataset', type=string, default='Projection', metavar='DS',
+        self.add_argument('--dataset', type=str, default='Projection', metavar='DS',
                           help='What dataset to use')
         self.add_argument('--data-dir', type=str, default='./data', metavar='DIR')
         self.add_argument('--log-interval', type=int, default=100, metavar='LOGI')
