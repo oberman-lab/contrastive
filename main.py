@@ -1,4 +1,4 @@
-from contrastive_arg_parser import ContrastiveArgParser
+from arg_parser import ContrastiveArgParser
 import torch
 import torch.optim as optim
 
@@ -30,8 +30,8 @@ if __name__ == "__main__":
 
     # Define the centers (targets)
     num_clusters = args.num_clusters
-    eye = torch.eye(2 * num_clusters, 2 * num_clusters).to(device)
-    centers = eye[0:num_clusters, :]
+    eye = torch.eye(2 * num_clusters, 2 * num_clusters)
+    centers = eye[0:num_clusters, :].to(device)
 
     # Get data
     data = ContrastiveData(args.frac_labeled, args.data_dir, batch_size_labeled=args.batch_size_labeled,
@@ -49,3 +49,5 @@ if __name__ == "__main__":
         run_epoch(model, epoch,data_loaders, optimizer, device,args , loss_function=loss_function)
         test_model(model,epoch,data_loaders, MSELoss(), device)
         print(time.time() - t0)
+
+    print(model.net[0].weight)
