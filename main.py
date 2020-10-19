@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     # Get data
     data = ContrastiveData(args.frac_labeled, args.data_dir, batch_size_labeled=args.batch_size_labeled,
-                           batch_size_unlabeled=args.batch_size_unlabeled, dataset_name='MNIST',
+                           batch_size_unlabeled=args.batch_size_unlabeled, dataset_name=args.dataset,
                            num_clusters=num_clusters, **kwargs)
     data_loaders = data.get_data_loaders()
 
