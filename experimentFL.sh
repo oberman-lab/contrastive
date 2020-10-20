@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 # An script to train LeNet on MNIST with SGD
 
@@ -13,12 +13,13 @@ CUDA_VISIBLE_DEVICES=$GPUID \
 for VARIABLE in 0.01 0.5 0.1 0.2 0.3 0.4 0.5
 do
 
-python -u ../main.py\
-  --data $DATADIR\
+python -u ./main.py\
+  --data-dir $DATADIR\
   --dropout 0.25\
   --momentum 0.9\
   --compare True \
-  --frac_labeled $VARIABLE \
-  --epochs 10 > $LOGDIR/log.out
+  --dataset MNIST \
+  --frac-labeled $VARIABLE \
+  --epochs 10 >> $LOGDIR/log.out
 
 done
