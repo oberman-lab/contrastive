@@ -40,7 +40,7 @@ def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        if batch_ix % args.log_interval == 0 and batch_ix > 0:
+        if batch_ix % (args.log_interval//5) == 0 and batch_ix > 0:
             print('Fully Supervised: [Epoch %2d, batch %3d] training loss: %.4f' %
                   (current_epoch, batch_ix, loss))
 
