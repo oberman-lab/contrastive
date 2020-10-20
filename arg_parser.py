@@ -10,6 +10,8 @@ class ContrastiveArgParser(argparse.ArgumentParser):
                           help='input unlabeled batch size for training (default: 128)')
         self.add_argument('--epochs', type=int, default=5, metavar='N',
                           help='number of epochs to train (default: 5)')
+        self.add_argument('--compare', type=bool, default=False, metavar='CO',
+                          help='Train supervised model for comparison?')                          
         self.add_argument('--lr', type=float, default=0.1, metavar='LR',
                           help='learning rate (default: 0.1)')
         self.add_argument('--dropout', type=float, default=0.25, metavar='P',

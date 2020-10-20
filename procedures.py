@@ -24,9 +24,25 @@ def run_epoch(model, current_epoch, data_loaders, optimizer, device, args, loss_
         loss.backward()
         optimizer.step()
         if batch_ix % args.log_interval == 0 and batch_ix > 0:
-            print('[Epoch %2d, batch %3d] training loss: %.4f' %
+            print('Semi Supervised: [Epoch %2d, batch %3d] training loss: %.4f' %
                   (current_epoch, batch_ix, loss))
 
+def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss_function):
+    model.train()
+
+    for batch_ix,(data,labels) in enumerate(data_loaders['labeled']):
+        data = data.to(device)
+        labels = labels.to(device)
+
+        output = model(data)
+        loss = loss_function(output,labels)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        if batch_ix % args.log_interval == 0 and batch_ix > 0:
+            print('Fully Supervised: [Epoch %2d, batch %3d] training loss: %.4f' %
+                  (current_epoch, batch_ix, loss))
 
 def test_model(model,current_epoch, data_loaders, loss_function,centers, device):
     # Define model and accesories

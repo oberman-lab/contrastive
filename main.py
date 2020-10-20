@@ -4,7 +4,7 @@ import torch.optim as optim
 
 from losses.losses import make_semi_sup_basic_loss
 from nets import *
-from procedures import run_epoch, test_model
+from procedures import run_epoch, test_model, train_supervised
 from data_processing.utils import *
 from data_processing.contrastive_data import ContrastiveData
 from torch.nn import MSELoss
@@ -52,8 +52,26 @@ if __name__ == "__main__":
     loss_function = make_semi_sup_basic_loss(centers)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
+    # Train the semi-supervised model
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
         run_epoch(model, epoch,data_loaders, optimizer, device,args , loss_function=loss_function)
         test_model(model,epoch,data_loaders, MSELoss(),centers, device)
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
+
+    # Train the supervised model for comparison
+    if args.compare:
+        # Reset model and accesories
+        if args.dataset == 'Projection':
+            model = SimpleNet(args.num_clusters,device)
+        else:
+            model = LeNet(args.dropout,device)
+
+        optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
+        loss_function = MSELoss()
+
+        for epoch in range(1, args.epochs + 1):
+            t0 = time.time()
+            train_supervised(model,epoch,data_loaders,optimizer,device,args,loss_function)
+            test_model(model,epoch,data_loaders, MSELoss(),centers, device)
+            print('Wall clock time for epoch: {}'.format(time.time() - t0))
