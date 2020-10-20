@@ -29,9 +29,13 @@ if __name__ == "__main__":
     kwargs = {'num_workers': 0, 'pin_memory': True} if args.cuda else {}
 
     # Define the centers (targets)
-    num_clusters = args.num_clusters
-    eye = torch.eye(2 * num_clusters, 2 * num_clusters)
-    centers = eye[0:num_clusters, :].to(device)
+    if args.dataset == "Projection":
+        num_clusters = args.num_clusters
+        eye = torch.eye(2 * num_clusters, 2 * num_clusters)
+        centers = eye[0:num_clusters, :].to(device)
+    else:
+        num_clusters = 10
+        centers = torch.eye(num_clusters, num_clusters).to(device)
 
     # Get data
     data = ContrastiveData(args.frac_labeled, args.data_dir, batch_size_labeled=args.batch_size_labeled,
@@ -52,4 +56,6 @@ if __name__ == "__main__":
         t0 = time.time()
         run_epoch(model, epoch,data_loaders, optimizer, device,args , loss_function=loss_function)
         test_model(model,epoch,data_loaders, MSELoss(), device)
-        print('Wall clock time for epoch: {}'.format(time.time() - t0))    
+        print('Wall clock time for epoch: {}'.format(time.time() - t0))
+
+    print(centers)
