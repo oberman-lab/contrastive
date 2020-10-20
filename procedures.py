@@ -1,6 +1,7 @@
 import torch
 import torchnet as tnt
 from data_processing import cycle_with
+from losses.helpers import returnClosestCenter
 
 def run_epoch(model, current_epoch, data_loaders, optimizer, device, args, loss_function=None):
     model.train()
@@ -27,7 +28,7 @@ def run_epoch(model, current_epoch, data_loaders, optimizer, device, args, loss_
                   (current_epoch, batch_ix, loss))
 
 
-def test_model(model,current_epoch, data_loaders, loss_function, device):
+def test_model(model,current_epoch, data_loaders, loss_function,centers, device):
     # Define model and accesories
     model.eval()
     with torch.no_grad():
@@ -35,6 +36,6 @@ def test_model(model,current_epoch, data_loaders, loss_function, device):
             data = data.to(device)
             target = target.to(device)
             output = model(data)
-            loss = loss_function(output, target)
+            loss = loss_function(returnClosestCenter(centers,output), target)
     print('[Epoch %2d] Average test loss: %.5f'
           % (current_epoch, loss))
