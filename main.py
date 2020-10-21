@@ -28,6 +28,7 @@ if __name__ == "__main__":
     print('\n')
     kwargs = {'num_workers': 0, 'pin_memory': True} if args.cuda else {}
 
+    args.dataset = "MNIST"
     # Define the centers (targets)
     if args.dataset == "Projection":
         num_clusters = args.num_clusters
