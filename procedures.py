@@ -57,7 +57,7 @@ def test_model(model,current_epoch, data_loaders, loss_function,centers, device)
 
             top1.add(returnClosestCenter(centers,output),torch.argmax(target,dim = 1))
             loss = loss_function(output, target)
-            test_loss.add(loss)
+            test_loss.add(loss.cpu())
 
     print('[Epoch %2d] Average test loss: %.5f, Accuracy: %.5f'
           % (current_epoch, test_loss.value()[0], top1.value()[0]))
