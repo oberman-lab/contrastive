@@ -1,6 +1,6 @@
 from losses.helpers import returnClosestCenter
-from torch.nn import MSELoss,PairwiseDistance
-import torch
+from torch.nn import MSELoss
+
 
 
 def semi_mse_loss(centers):
