@@ -2,7 +2,7 @@ from arg_parser import ContrastiveArgParser
 import torch
 import torch.optim as optim
 
-from losses.losses import semi_mse_loss,basic_softmin_loss
+from losses.losses import semi_mse_loss
 from nets import *
 from procedures import run_epoch, test_model, train_supervised
 from data_processing.utils import *
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     else:
         model = LeNet(args.dropout,device)
 
-    loss_function = basic_softmin_loss(centers)
+    loss_function = semi_mse_loss(centers)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
     # Train the semi-supervised model
