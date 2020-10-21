@@ -11,7 +11,7 @@ class ContrastiveArgParser(argparse.ArgumentParser):
         self.add_argument('--epochs', type=int, default=5, metavar='N',
                           help='number of epochs to train (default: 5)')
         self.add_argument('--compare', type=bool, default=False, metavar='CO',
-                          help='Train supervised model for comparison?')                          
+                          help='Train supervised model for comparison?')
         self.add_argument('--lr', type=float, default=0.1, metavar='LR',
                           help='learning rate (default: 0.1)')
         self.add_argument('--dropout', type=float, default=0.25, metavar='P',
@@ -24,6 +24,7 @@ class ContrastiveArgParser(argparse.ArgumentParser):
                           help='Number of clusters to expect')
         self.add_argument('--dataset', type=str, default='Projection', metavar='DS',
                           help='What dataset to use')
-        self.add_argument('--data-dir', type=str, default='./data', metavar='DIR')
+        self.add_argument('--data-dir', type=str, default='./data', metavar='DDIR')
+        self.add_argument('--log-dir', type=str, default='None', metavar='LDIR')
         self.add_argument('--log-interval', type=int, default=100, metavar='LOGI')
         self.add_argument('--loss-function', type=str, default='MSELoss', metavar='LF')

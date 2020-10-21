@@ -8,10 +8,12 @@ from procedures import run_epoch, test_model, train_supervised
 from data_processing.utils import *
 from data_processing.contrastive_data import ContrastiveData
 from torch.nn import MSELoss
+from torch.utils.tensorboard import SummaryWriter # for logging
 
 if __name__ == "__main__":
     # Parse arguments
     parser = ContrastiveArgParser()
+
 
     args = parser.parse_args()
     args.cuda =False #False until proven otherwise
@@ -28,7 +30,11 @@ if __name__ == "__main__":
     print('\n')
     kwargs = {'num_workers': 0, 'pin_memory': True} if args.cuda else {}
 
-    
+    if args.log_dir != "None":
+        writer = SummaryWriter(log_dir = args.log_dir)
+    else:
+        writer = None
+
     # Define the centers (targets)
     if args.dataset == "Projection":
         num_clusters = args.num_clusters
@@ -56,8 +62,8 @@ if __name__ == "__main__":
     # Train the semi-supervised model
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
-        run_epoch(model, epoch,data_loaders, optimizer, device,args , loss_function=loss_function)
-        test_model(model,epoch,data_loaders, MSELoss(),centers, device)
+        run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
+        test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
     # Train the supervised model for comparison
@@ -73,6 +79,6 @@ if __name__ == "__main__":
 
         for epoch in range(1, args.epochs + 1):
             t0 = time.time()
-            train_supervised(model,epoch,data_loaders,optimizer,device,args,loss_function)
-            test_model(model,epoch,data_loaders, MSELoss(),centers, device)
+            train_supervised(model,epoch,data_loaders,optimizer,device,args,loss_function,writer)
+            test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
             print('Wall clock time for epoch: {}'.format(time.time() - t0))

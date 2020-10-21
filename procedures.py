@@ -2,9 +2,10 @@ import torch
 import torchnet as tnt
 from data_processing import cycle_with
 from losses.helpers import returnClosestCenter
-import numpy as np
 
-def run_epoch(model, current_epoch, data_loaders, optimizer, device, args, loss_function=None):
+
+
+def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_function ,writer):
     model.train()
     # We loop over all batches in the (bigger) unlabeled set. While we do so we loop also on the labeled data, starting over if necessary.
     # This means that unlabeled data may be present many times in the same epoch.
@@ -27,8 +28,10 @@ def run_epoch(model, current_epoch, data_loaders, optimizer, device, args, loss_
         if batch_ix % args.log_interval == 0 and batch_ix > 0:
             print('Semi Supervised: [Epoch %2d, batch %3d] training loss: %.4f' %
                   (current_epoch, batch_ix, loss))
+    if writer is not None:
+        writer.add_scalar('train/loss/semi', loss,current_epoch)
 
-def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss_function):
+def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss_function,writer = None):
     model.train()
 
     for batch_ix,(data,labels) in enumerate(data_loaders['labeled']):
@@ -44,8 +47,10 @@ def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss
         if batch_ix % (args.log_interval//5) == 0 and batch_ix > 0:
             print('Fully Supervised: [Epoch %2d, batch %3d] training loss: %.4f' %
                   (current_epoch, batch_ix, loss))
+    if writer is not None:
+        writer.add_scalar('train/loss/fully', loss,current_epoch)
 
-def test_model(model,current_epoch, data_loaders, loss_function,centers, device):
+def test_model(model,current_epoch, data_loaders, loss_function,centers, device,writer):
     model.eval()
     top1 = tnt.meter.ClassErrorMeter(accuracy = True)
     test_loss = tnt.meter.AverageValueMeter()
@@ -61,3 +66,6 @@ def test_model(model,current_epoch, data_loaders, loss_function,centers, device)
 
     print('[Epoch %2d] Average test loss: %.5f, Accuracy: %.5f'
           % (current_epoch, test_loss.value()[0], top1.value()[0]))
+    if writer is not None:
+        writer.add_scalar('test/loss',  test_loss.value()[0],current_epoch)
+        writer.add_scalar('test/acc', top1.value()[0],current_epoch)
