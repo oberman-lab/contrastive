@@ -59,8 +59,8 @@ def test_model(model,current_epoch, data_loaders, loss_function,centers, device,
             data = data.to(device)
             target = target.to(device)
             output = model(data)
-
-            top1.add(returnClosestCenter(centers,output),torch.argmax(target,dim = 1))
+            
+            top1.add(torch.cdist(output,centers),torch.argmax(target,dim = 1))
             loss = loss_function(output, target)
             test_loss.add(loss.cpu())
 
