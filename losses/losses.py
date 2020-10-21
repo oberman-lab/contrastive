@@ -20,8 +20,9 @@ def basic_softmin_loss(centers):
         S_l = labeled_output.size()[0]
         S_u = unlabeled_output.size()[0]
 
-        labeled_loss = torch.sum(pdist(labeled_output,labels))
-        unlabeled_loss = torch.sum(-torch.logsumexp(-torch.cdist(unlabeled_output,centers),dim=-1))
+        labeled_loss = torch.sum(pdist(labeled_output,labels)) / S_l
+        #unlabeled_loss = torch.sum(-torch.logsumexp(-torch.cdist(unlabeled_output,centers),dim=-1)) / S_u
+        unlabeled_loss = torch.sum(pdist(unlabeled_output,returnClosestCenter(centers,unlabeled_output)))  / S_u
 
         return labeled_loss + unlabeled_loss
 
