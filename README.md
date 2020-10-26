@@ -20,14 +20,6 @@ This repo is intended to to serve as a framework for comparing loss functions in
  - [ ] Visualization for Toy example (projection); use to compare losses longterm.
  - [ ] Brainstorm Several Losses for comparison
 
-## Interesting related papers
-- [MixMatch: A Holistic Approach to Semi-Supervised Learning](https://arxiv.org/abs/1905.02249)
-- [A Survey on Semi-Supervised Learning](https://link.springer.com/article/10.1007/s10994-019-05855-6)
-- [Contrastive Representation Learning: A Framework and Review](https://arxiv.org/abs/2010.05113)
-- [Self-training with Noisy Student improves ImageNet classification](https://arxiv.org/pdf/1911.04252.pdf)
-- [Realistic Evaluation of Deep Semi-Supervised Learning Algorithms](https://arxiv.org/abs/1804.09170)
-
-
 ## Current Supported Datasets
   - Projection Dataset
   - MNIST
