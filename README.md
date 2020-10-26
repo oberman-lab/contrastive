@@ -10,13 +10,14 @@ This repo is intended to to serve as a framework for comparing loss functions in
 - Scott's notes: [pdf](https://github.com/oberman-lab/contrastive/blob/master/Research/notes_semi_sup.pdf.pdf) and [markdown](https://github.com/oberman-lab/contrastive/blob/master/Research/reasearch_scott.md).
 - Scott's notes on a loss framework (work in progress): [pdf](https://github.com/oberman-lab/contrastive/blob/master/Research/Loss_Framework.pdf)
 - Adam's notes on cluster energy: [markdown](https://github.com/oberman-lab/contrastive/blob/master/Research/Cluster%20energy.md)
+- Noah's general thoughts [markdown](https://github.com/oberman-lab/contrastive/blob/master/Research/noahnotes.md)
 
 ## TODO
- - [ ] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
- - [ ] Modularize loss classes
+ - [ x] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
+ - [ x] Modularize loss classes
  - [ ] More robust splitting into labeled unlabeled - ie frac-labeled = 0.8 crashes rn
  - [ ] Add data augmentation capabilities
- - [ ] UML (ish) diagram
+ - [ x] UML (ish) diagram
  - [ ] Implement more robust, detailed logging
  - [ ] Expand on paper list below
  - [ ] Visualization for Toy example (projection); use to compare losses longterm.
