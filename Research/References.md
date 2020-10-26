@@ -18,6 +18,10 @@ ReMixMatch improves on MixMatch by introducing Augmentation Anchoring. Using str
 
 FixMatch is essentially a simplification of ReMixMatch, where they remove the rotation loss, distribution alignment and sharpening. Instead the loss on unlabeled images is only active when the pseudo-label is above a certain threshold (in other words, only when the model is confident).
 
+Other interesting references
+- [Self-training with Noisy Student improves ImageNet classification](https://arxiv.org/pdf/1911.04252.pdf)
+- [Realistic Evaluation of Deep Semi-Supervised Learning Algorithms](https://arxiv.org/abs/1804.09170)
+
 # References Contrastive Learning
 
 Perhaps the big breakthrough in contrastive learning is the paper
