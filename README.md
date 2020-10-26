@@ -8,6 +8,7 @@ This repo is intended to to serve as a framework for comparing loss functions in
 - Brief overview (with references) to recently proposed losses, including center loss (distance to center targets): [Better Losses](https://github.com/oberman-lab/contrastive/blob/master/Research/Better%20Losses.md)
 - Recent references on self-supervised and semi-supervised learning: [References](https://github.com/oberman-lab/contrastive/blob/master/Research/References.md)
 - Scott's notes: [pdf](https://github.com/oberman-lab/contrastive/blob/master/Research/notes_semi_sup.pdf.pdf) and [markdown](https://github.com/oberman-lab/contrastive/blob/master/Research/reasearch_scott.md).
+- Scott's notes on a loss framework (work in progress): [pdf](https://github.com/oberman-lab/contrastive/blob/master/Research/Loss_Framework.pdf)
 
 ## TODO
  - [ ] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
