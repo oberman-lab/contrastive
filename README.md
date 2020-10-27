@@ -11,6 +11,7 @@ This repo is intended to to serve as a framework for comparing loss functions in
 - Scott's notes on a loss framework (work in progress): [pdf](https://github.com/oberman-lab/contrastive/blob/master/Research/Loss_Framework.pdf)
 - Adam's notes on cluster energy: [markdown](https://github.com/oberman-lab/contrastive/blob/master/Research/Cluster%20energy.md)
 - Noah's general thoughts [markdown](https://github.com/oberman-lab/contrastive/blob/master/Research/noahnotes.md)
+- [Blog post](https://amitness.com/2020/07/semi-supervised-learning/) that reviews some recent methods for semi-supervised learning.
 
 ## TODO
  - [ x] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
