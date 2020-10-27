@@ -58,7 +58,9 @@ Wrong assumptions can hurt(negative impact! not neutral. source: Gweon et al, 20
  Idea: build a graph by proximity in x, and then model low-dim manifold by fitting the function f(x) by optimizing smoothness of f to the manifold. The smoothness of manifold is optimized, and smoothness over input space as well
 
  #### Wikipedia: k-means
+
  ##### Idea
+
   We have a number k of centers, each associated with a partition of the data. Minimize sum of Euclidian distance squared from nodes in a set to the center. For any given set, the point that does this is the mean. Therefore, minimize the partitioning of fixed size that minimizes distance squared with the mean of the subset. This is equivalent to minimizing the normalized sum of distance squared for every pairs of elements in the set. This equivalence is proved through the factored-out expression for $C_l$ the partition elements,
   and $\mu_l = \frac{1}{|C_l|}\sum_{x \in C_l} x$ the mean of the partition element.
   $$\sum_{x \in C_l} ||x||^2 - |C_l| ||\mu_l||^2$$
@@ -71,40 +73,39 @@ Wrong assumptions can hurt(negative impact! not neutral. source: Gweon et al, 20
   - Can be generalized to gaussian mixtures. K means is Gaussian mixtures for unit diagonal gaussians.
   - Features can be learned by defining a feature as the nearest center of a point.
 
-      #### Cluster Energy Notes
+#### Cluster Energy Notes
 
-  - Inspired from Mido's contrastive learning paper. The idea of the paper is to combine contrastive learning on labeled
-      and unlabeled data. This is done through cosine similarity between feature representations.
+- Inspired from Mido's contrastive learning paper. The idea of the paper is to combine contrastive learning on labeled
+  and unlabeled data. This is done through cosine similarity between feature representations.
+- unsupervised: data to learn features with similarity between elements and their data augmented counterparts.
+- supervised: optimize similarity between elements of the same label.
 
-  - unsupervised: data to learn features with similarity between elements and their data augmented counterparts.
-  - supervised: optimize similarity between elements of the same label.
+Once this pre-training is done, the network is trained with the labeled data only.
 
-  Once this pre-training is done, the network is trained with the labeled data only.
+Principle is to learn a representation feature vector with an appropriate metric
+between them. It is also important that the feature vectors retain information about the input space.
 
-  Principle is to learn a representation feature vector with an appropriate metric
-  between them. It is also important that the feature vectors retain information about the input space.
+- Question: Why is cosine similarity used?
 
-  - Question: Why is cosine similarity used?
-    
-    #### Cluster Energy Notes Takeaway
-    
-  - multiple views: Data augmentation -> unsupervised similarity
+  #### Cluster Energy Notes Takeaway
 
-  - using known labels: For Mido, labels are used twice: to learn distances and to learn labeling function
+- multiple views: Data augmentation -> unsupervised similarity
 
-  - cluster energy: Absent from Mido's paper! new input.\
+- using known labels: For Mido, labels are used twice: to learn distances and to learn labeling function
 
-  First Idea: embed all labeled elements to fixed "target" vectors.
-  ISSUE: We cannot learn then! The function from elements to labeled centers is the trivial realizable hypothesis.
+- cluster energy: Absent from Mido's paper! new input.\
 
-  Fix the center vectors $c_i$ corresponding to the labels (can be the basis vectors).
+First Idea: embed all labeled elements to fixed "target" vectors.
+ISSUE: We cannot learn then! The function from elements to labeled centers is the trivial realizable hypothesis.
+
+Fix the center vectors $c_i$ corresponding to the labels (can be the basis vectors).
 
 - Minimize d(x, C(x)) where C(x) is the center nearest to x (for an unsupervised sample)
-    ISSUE: contrary to k-means, minimizing this does not pitch distance of elements against each other.
-    When centroid goes closer to other elements, it leaves others behind (compromise between samples).
-    This is not the case here as the gradient in distance with different points is independent (modulo complexity of the hypothesis class).
-    Result: The gradients will be determined by initial config. C(x) will (almost) never change for training,
-    not learning clusters, but taking the initial clustering as true and as needed to be enforced in features.
+  ISSUE: contrary to k-means, minimizing this does not pitch distance of elements against each other.
+  When centroid goes closer to other elements, it leaves others behind (compromise between samples).
+  This is not the case here as the gradient in distance with different points is independent (modulo complexity of the hypothesis class).
+  Result: The gradients will be determined by initial config. C(x) will (almost) never change for training,
+  not learning clusters, but taking the initial clustering as true and as needed to be enforced in features.
 
   Remark: key difference between Mido and this: this algorithm attempts to learn the entire problem (Pre-training and fine-tuning)
   Whereas position in Mido's feature learning is not decided (definition of pre-training to some extent)
@@ -123,13 +124,32 @@ Wrong assumptions can hurt(negative impact! not neutral. source: Gweon et al, 20
     to the label y. This is standard supervised learning with data augmentation.
   - $d(u,C(u))$: Train unlabeled data to get closer to their nearest center. This trains samples to cluster in an arbitrary way, where the center of clusters is the nearest center at initialization for each label. This is done in [Mixmatch]('https://arxiv.org/abs/1905.02249') by sharpening the SoftMax output(aka increasing the temperature). This operation is a softer version than the clustering training proposed by $d(u, C(u))$. The motivation behind this training is learning to cluster is one step towards learning to cluster correctly. In [MixMatch]('https://arxiv.org/abs/1905.02249') they mention that this has to do with setting the boundaries in low-density regions of $p(x)$, although it should be noted that this process starts by setting the
     boundaries first, and then enforcing low densities in the region of these boundaries. Nonetheless, Mixmatch uses it, so it is probably empirically shown to help unsupervised learning.
+
  - $d(u,q)$: Define q as the averaged, sharpened target as the mean of the output of u and all its augmentations. This term is only from Mixmatch.
- -  $d(u, u^+)$: learn that the distance in the feature space between an image and one of its augmentations should be small. Intuition: the relevant features in an image and one of its transformations are the same. This term has to do with learning a metric in feature space. Note: here u can be a supervised or an unsupervised sample.
+
+ - $d(u, u^+)$: learn that the distance in the feature space between an image and one of its augmentations should be small. Intuition: the relevant features in an image and one of its transformations are the same. This term has to do with learning a metric in feature space. Note: here u can be a supervised or an unsupervised sample.
+
  - $d(x_1, x_2)$: For two labeled samples $x_1, x_2$ for which $y_1, y_2$ have the same label, their feature vectors should be close to each other. The intuition here is that two elements of the same class should share some set of features.
+
  - $d(u^+, C(u))$: learn a random but consistent target for the augmentations of $u$. A similar term appears in MixMatch, but instead of $C(u)$ they take the average predictions of u and its augmentations at initialization, which is then temperature-sharpened (aka softly projected to the nearest center). Note: the effect of this term should resemble(to which degree? don't know) the combined effect of $d(u,C(u))$ and $d(u, u^+)$ by the triangle inequality. This can be seen also by the fact that if $d(u,u^+)$ is small enough, then they will be mapped to the same target. However, $d(u^+, C(u))$ being small intuitively does not imply the former, since two distinct feature vectors can be mapped to the same target.
 
 
- ##### Categorization
+ ##### 
+
+#### Comprehensive Study on Center Loss for Deep Face Recognition
+
+- Distinction of closed-set recognition vs open-set recognition
+- Closed-Set: the set of labels $Y$ is known and the same for training and testing.
+- Open-Set: $Y$ is bigger in the test set, potentially infinite set. Contrastive losses needed in that case.
+
+  - Sample Complexity of loss: number of loss elements to compute to get the full gradient. Pairwise losses (contrastive) has one more order of complexity than center-based approaches.
+- By this logic center loss is strictly better than pair-wise contrastive by the equivalence of k-means.
+  - Adds a loss term for distance to $w$ vector of the softmax activation. The idea is to maximise inter-class distance in the feature space.
+
+- Ideas to explore: Relation of cosine dist. with euclidean dist. Why does distance matter? Define distance as a single concept stemming from intra vs extra variation.
+
+Categorisation
+
  ###### Contrastive vs target based
 
  We wish to categorize the terms described above. The primary categories are
