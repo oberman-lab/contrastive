@@ -2,24 +2,27 @@
 
 This repo is intended to to serve as a framework for comparing loss functions in a semi-supervised learning context. 
 
+## Organization
+
+- Slides to Matthew's introductory talk on Semi-supervised learning (10/22): [Matthew's talk](https://github.com/oberman-lab/contrastive/blob/master/Research/Matthew's%20Presentation%20SSL%20-%202020-10-12.pdf)
+- Brief overview (with references) to recently proposed losses, including center loss (distance to center targets): [Better Losses](https://github.com/oberman-lab/contrastive/blob/master/Research/Better%20Losses.md)
+- Recent references on self-supervised and semi-supervised learning: [References](https://github.com/oberman-lab/contrastive/blob/master/Research/References.md)
+- Scott's notes: [pdf](https://github.com/oberman-lab/contrastive/blob/master/Research/notes_semi_sup.pdf.pdf) and [markdown](https://github.com/oberman-lab/contrastive/blob/master/Research/reasearch_scott.md).
+- Scott's notes on a loss framework (work in progress): [pdf](https://github.com/oberman-lab/contrastive/blob/master/Research/Loss_Framework.pdf)
+- Adam's notes on cluster energy: [markdown](https://github.com/oberman-lab/contrastive/blob/master/Research/Cluster%20energy.md)
+- Noah's general thoughts [markdown](https://github.com/oberman-lab/contrastive/blob/master/Research/noahnotes.md)
+- [Blog post](https://amitness.com/2020/07/semi-supervised-learning/) that reviews some recent methods for semi-supervised learning.
+
 ## TODO
- - [ ] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
- - [ ] Modularize loss classes
+ - [ x] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
+ - [ x] Modularize loss classes
  - [ ] More robust splitting into labeled unlabeled - ie frac-labeled = 0.8 crashes rn
  - [ ] Add data augmentation capabilities
- - [ ] UML (ish) diagram
+ - [ x] UML (ish) diagram
  - [ ] Implement more robust, detailed logging
  - [ ] Expand on paper list below
  - [ ] Visualization for Toy example (projection); use to compare losses longterm.
  - [ ] Brainstorm Several Losses for comparison
-
-## Interesting related papers
-- [MixMatch: A Holistic Approach to Semi-Supervised Learning](https://arxiv.org/abs/1905.02249)
-- [A Survey on Semi-Supervised Learning](https://link.springer.com/article/10.1007/s10994-019-05855-6)
-- [Contrastive Representation Learning: A Framework and Review](https://arxiv.org/abs/2010.05113)
-- [Self-training with Noisy Student improves ImageNet classification](https://arxiv.org/pdf/1911.04252.pdf)
-- [Realistic Evaluation of Deep Semi-Supervised Learning Algorithms](https://arxiv.org/abs/1804.09170)
-
 
 ## Current Supported Datasets
   - Projection Dataset
