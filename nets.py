@@ -72,11 +72,11 @@ class CenterLeNet(nn.Module):  # as seen in https://kpzhang93.github.io/papers/e
             convbn(128,128,5,2,dropout), # 2x conv(5,64)
 
             _View(50*2*2),
-            nn.Linear(50*2*2, 500),
-            nn.BatchNorm1d(500),
+            nn.Linear(50*2*2, 2),
+            nn.BatchNorm1d(2),
             nn.ReLU(True),
             nn.Dropout(dropout),
-            nn.Linear(500,10)).to(device)
+            nn.Linear(2,10)).to(device)
 
     def forward(self, x):
         return self.m(x)
