@@ -66,6 +66,7 @@ if __name__ == "__main__":
         test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
+
     # Train the supervised model for comparison
     if args.compare:
         # Reset model and accesories
@@ -82,3 +83,5 @@ if __name__ == "__main__":
             train_supervised(model,epoch,data_loaders,optimizer,device,args,loss_function,writer)
             test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
             print('Wall clock time for epoch: {}'.format(time.time() - t0))
+
+   
