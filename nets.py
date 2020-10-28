@@ -63,8 +63,10 @@ class CenterLeNet(nn.Module):  # as seen in https://kpzhang93.github.io/papers/e
 
         self.m = nn.Sequential(
             convbn(1,32,5,2,dropout),
-            convbn(32,32,5,2,dropout),            
-            convbn(20,50,5,2,dropout),
+            convbn(32,32,5,2,dropout), # 2x conv(5,32)
+
+            convbn(32,50,5,2,dropout),
+            convbn(50,50,5,2,dropout), # 2x conv(5,64)
             _View(50*2*2),
             nn.Linear(50*2*2, 500),
             nn.BatchNorm1d(500),
