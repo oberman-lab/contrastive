@@ -46,3 +46,31 @@ class LeNet(nn.Module):
 
     def forward(self, x):
         return self.m(x)
+
+
+
+class CenterLeNet(nn.Module):  # as seen in https://kpzhang93.github.io/papers/eccv2016.pdf (center loss paper)
+    def __init__(self,dropout,device):
+        super(LeNet, self).__init__()
+
+        def convbn(ci,co,ksz,psz,p):
+            return nn.Sequential(
+                nn.Conv2d(ci,co,ksz),
+                nn.BatchNorm2d(co),
+                nn.ReLU(True),
+                nn.MaxPool2d(psz,stride=psz),
+                nn.Dropout(p))
+
+        self.m = nn.Sequential(
+            convbn(1,32,5,2,dropout),
+            convbn(32,32,5,2,dropout),            
+            convbn(20,50,5,2,dropout),
+            _View(50*2*2),
+            nn.Linear(50*2*2, 500),
+            nn.BatchNorm1d(500),
+            nn.ReLU(True),
+            nn.Dropout(dropout),
+            nn.Linear(500,10)).to(device)
+
+    def forward(self, x):
+        return self.m(x)
