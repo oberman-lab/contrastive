@@ -14,15 +14,15 @@ This repo is intended to to serve as a framework for comparing loss functions in
 - [Blog post](https://amitness.com/2020/07/semi-supervised-learning/) that reviews some recent methods for semi-supervised learning.
 
 ## TODO
- - [ x] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
- - [ x] Modularize loss classes
- - [ ] More robust splitting into labeled unlabeled - ie frac-labeled = 0.8 crashes rn
  - [ ] Add data augmentation capabilities
- - [ x] UML (ish) diagram
  - [ ] Implement more robust, detailed logging
  - [ ] Expand on paper list below
  - [ ] Visualization for Toy example (projection); use to compare losses longterm.
  - [ ] Brainstorm Several Losses for comparison
+ - [x] Define architecture for image datasets (Adapt Chris's Implementation of LeNet from Hello World for MNIST)
+ - [x] Modularize loss classes
+ - [x] UML (ish) diagram
+ - [X] More robust splitting into labeled unlabeled - ie frac-labeled = 0.8 crashes rn
 
 ## Current Supported Datasets
   - Projection Dataset
