@@ -72,7 +72,7 @@ if __name__ == "__main__":
         if args.dataset == 'Projection':
             model = SimpleNet(args.num_clusters,device)
         else:
-            model = CenterLeNet(args.dropout,device)
+            model = LeNet(args.dropout,device)s
 
         optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
         loss_function = MSELoss()
@@ -83,4 +83,4 @@ if __name__ == "__main__":
             test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
             print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
-    torch.save(model.cpu(),'CenterLeNet_saved')
+    torch.save(model.cpu(),'LeNet_saved')
