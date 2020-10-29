@@ -9,7 +9,7 @@ from torchvision import datasets, transforms
 class ContrastiveData:
     '''Takes care of data for contrastive purposes'''
 
-    def __init__(self,fraction_labeled,data_directory,batch_size_labeled = 32, batch_size_unlabeled=32, dataset_name="MNIST",num_clusters=5, **kwargs):
+    def __init__(self,fraction_labeled,data_directory,centers,batch_size_labeled = 32, batch_size_unlabeled=32, dataset_name="MNIST",num_clusters=5, **kwargs):
         # Import train data
         self.batch_size_labeled = batch_size_labeled
         self.batch_size_unlabeled = batch_size_unlabeled
@@ -29,9 +29,8 @@ class ContrastiveData:
                 transforms.ToTensor(),
                 transforms.Normalize((0.1307,), (0.3081,))
             ]))
-
-            train_data = labels_to_centers(train_data,10)
-            test_data = labels_to_centers(test_data,10)
+            train_data = labels_to_centers(train_data,10,centers)
+            test_data = labels_to_centers(test_data,10,centers)
 
         elif dataset_name == "FashionMNIST":
             train_data = datasets.FashionMNIST(self.data_directory, train=True, download=True,
@@ -92,9 +91,10 @@ class ContrastiveData:
 class labels_to_centers(Dataset):
     ''' Simple class to convert labels from digits to one-hot centers'''
 
-    def __init__(self, input_dataset: Dataset,num_categories: int):
+    def __init__(self, input_dataset: Dataset,num_categories: int, centers):
         self.input_dataset = input_dataset
-        self.eye = torch.eye(num_categories)
+#        self.eye = torch.eye(num_categories)
+        self.eye = centers.to("cpu")
 
     def __len__(self):
         return len(self.input_dataset)

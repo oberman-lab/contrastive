@@ -33,14 +33,25 @@ def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_f
 
 def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss_function,writer = None):
     model.train()
-
+    r = 1
+    pi = torch.acos(torch.zeros(1)).item() * 2
+    t = torch.true_divide(2*pi*torch.arange(10),10)
+    x = r * torch.cos(t)
+    y = r * torch.sin(t)
+    centers_features = torch.cat((x.view(-1,1), y.view(-1,1)), 1).to(device)
     for batch_ix,(data,labels) in enumerate(data_loaders['labeled']):
         data = data.to(device)
         labels = labels.to(device)
 
-        output = model(data)
-        loss = loss_function(output,labels)
-
+        output_features = model.features(data)
+        output_ll = model.last_layer(output_features)
+        
+        
+        aux = torch.arange(10).repeat(labels.shape[0],1)[labels==1]
+        labels_features = centers_features[aux,:]
+        
+        loss = loss_function(output_features, output_ll, labels_features, labels)
+        
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()

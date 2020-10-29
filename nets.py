@@ -25,24 +25,57 @@ class _View(nn.Module):
 class LeNet(nn.Module):
     def __init__(self,dropout,device):
         super(LeNet, self).__init__()
-
+        
         def convbn(ci,co,ksz,psz,p):
             return nn.Sequential(
-                nn.Conv2d(ci,co,ksz),
-                nn.BatchNorm2d(co),
-                nn.ReLU(True),
-                nn.MaxPool2d(psz,stride=psz),
-                nn.Dropout(p))
-
+                                 nn.Conv2d(ci,co,ksz,stride=1,padding=2),
+                                 nn.BatchNorm2d(co),
+                                 nn.ReLU(True),
+                                 nn.Conv2d(co,co,ksz,stride=1,padding=2),
+                                 nn.BatchNorm2d(co),
+                                 nn.ReLU(True),
+                                 nn.MaxPool2d(psz,stride=psz),
+                                 nn.Dropout(p))
+        
         self.m = nn.Sequential(
-            convbn(1,20,5,3,dropout),
-            convbn(20,50,5,2,dropout),
-            _View(50*2*2),
-            nn.Linear(50*2*2, 500),
-            nn.BatchNorm1d(500),
-            nn.ReLU(True),
-            nn.Dropout(dropout),
-            nn.Linear(500,10)).to(device)
-
+                               convbn(1,32,5,2,dropout),
+                               convbn(32,64,5,2,dropout),
+                               convbn(64,128,5,2,dropout),
+                               _View(128*3*3),
+                               nn.Linear(128*3*3,2),
+                               nn.Linear(2,10)).to(device)
+    
     def forward(self, x):
         return self.m(x)
+
+class LeNetplus(nn.Module):
+    def __init__(self,dropout,device):
+        super(LeNetplus, self).__init__()
+        
+        def convbn(ci,co,ksz,psz,p):
+            return nn.Sequential(
+                                 nn.Conv2d(ci,co,ksz,stride=1,padding=2),
+                                 nn.BatchNorm2d(co),
+                                 nn.ReLU(True),
+                                 nn.Conv2d(co,co,ksz,stride=1,padding=2),
+                                 nn.BatchNorm2d(co),
+                                 nn.ReLU(True),
+                                 nn.MaxPool2d(psz,stride=psz),
+                                 nn.Dropout(p))
+        
+        self.m = nn.Sequential(
+                               convbn(1,32,5,2,dropout),
+                               convbn(32,64,5,2,dropout),
+                               convbn(64,128,5,2,dropout),
+                               _View(128*3*3),
+                               nn.Linear(128*3*3,2)).to(device)
+        self.ll = nn.Linear(2,10).to(device)
+
+    def forward(self, x):
+        return self.ll(self.m(x))
+                                      
+    def features(self, x):
+        return self.m(x)
+
+    def last_layer(self, x):
+        return self.ll(x)

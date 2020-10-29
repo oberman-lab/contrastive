@@ -2,7 +2,7 @@ from arg_parser import ContrastiveArgParser
 import torch
 import torch.optim as optim
 
-from losses.losses import semi_mse_loss
+from losses.losses import semi_mse_loss, center_loss
 from nets import *
 from procedures import run_epoch, test_model, train_supervised
 from data_processing.utils import *
@@ -42,10 +42,16 @@ if __name__ == "__main__":
         centers = eye[0:num_clusters, :].to(device)
     else:
         num_clusters = 10
+#        r = 10
+#        pi = torch.acos(torch.zeros(1)).item() * 2
+#        t = torch.true_divide(2*pi*torch.arange(10),10)
+#        x = r * torch.cos(t)
+#        y = r * torch.sin(t)
+#        centers_features = torch.cat((x.view(-1,1), y.view(-1,1)), 1).to(device)
         centers = torch.eye(num_clusters, num_clusters).to(device)
 
     # Get data
-    data = ContrastiveData(args.frac_labeled, args.data_dir, batch_size_labeled=args.batch_size_labeled,
+    data = ContrastiveData(args.frac_labeled, args.data_dir,centers, batch_size_labeled=args.batch_size_labeled,
                            batch_size_unlabeled=args.batch_size_unlabeled, dataset_name=args.dataset,
                            num_clusters=num_clusters, **kwargs)
     data_loaders = data.get_data_loaders()
@@ -59,12 +65,12 @@ if __name__ == "__main__":
     loss_function = semi_mse_loss(centers)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
-    # Train the semi-supervised model
-    for epoch in range(1, args.epochs + 1):
-        t0 = time.time()
-        run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
-        test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
-        print('Wall clock time for epoch: {}'.format(time.time() - t0))
+#    # Train the semi-supervised model
+#    for epoch in range(1, args.epochs + 1):
+#        t0 = time.time()
+#        run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
+#        test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
+#        print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
 
     # Train the supervised model for comparison
@@ -73,15 +79,16 @@ if __name__ == "__main__":
         if args.dataset == 'Projection':
             model = SimpleNet(args.num_clusters,device)
         else:
-            model = LeNet(args.dropout,device)
+            model = LeNetplus(args.dropout,device)
 
         optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-        loss_function = MSELoss()
+        loss_function = center_loss()
 
         for epoch in range(1, args.epochs + 1):
             t0 = time.time()
             train_supervised(model,epoch,data_loaders,optimizer,device,args,loss_function,writer)
             test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
+            torch.save(model.state_dict(), 'model.pt')
             print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
    
