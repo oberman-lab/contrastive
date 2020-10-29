@@ -53,7 +53,7 @@ if __name__ == "__main__":
     if args.dataset == 'Projection':
         model = SimpleNet(args.num_clusters,device)
     else:
-        model = CenterLeNet(args.dropout,device)
+        model = LeNet(args.dropout,device)
 
     loss_function = semi_mse_loss(centers)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
