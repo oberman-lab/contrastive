@@ -81,7 +81,7 @@ class CenterLeNet(nn.Module):  # as seen in https://kpzhang93.github.io/papers/e
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
-        x = F.relu(self.linear1(x))
+        x = F.relu(F.batch_norm(self.linear1(x)))
         x = self.linear2(x)
 
         return x
