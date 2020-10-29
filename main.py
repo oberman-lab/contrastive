@@ -83,4 +83,4 @@ if __name__ == "__main__":
             test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
             print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
-    torch.save(model,'CenterLeNet_saved')
+    torch.save(model.cpu(),'CenterLeNet_saved')
