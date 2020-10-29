@@ -53,26 +53,25 @@ class CenterLeNet(nn.Module):  # as seen in https://kpzhang93.github.io/papers/e
     def __init__(self,dropout,device):
         super(CenterLeNet, self).__init__()
 
-        def convbn(ci,co,ksz,psz,p):
-            return nn.Sequential(
-                nn.Conv2d(ci,co,ksz),
-                nn.BatchNorm2d(co),
-                nn.ReLU(True),
-                nn.MaxPool2d(psz,stride=psz),
-                nn.Dropout(p))
 
         self.m = nn.Sequential(
-            convbn(1,32,5,2,dropout),
-            convbn(32,32,5,2,dropout), # 2x conv(5,32)
+            nn.Conv2d(1,32,5,padding=2),
+            nn.Conv2d(32,32,5,padding=2), # 2x conv(5,32)
+            nn.PReLU(),
+            nn.MaxPool2d(2,stride=2),
 
-            convbn(32,64,5,2,dropout),
-            convbn(64,64,5,2,dropout), # 2x conv(5,64)
+            nn.Conv2d(32,64,5,padding=2),
+            nn.Conv2d(64,64,5,padding=2), # 2x conv(5,64)
+            nn.PReLU(),
+            nn.MaxPool2d(2,stride=2),
 
-            convbn(64,128,5,2,dropout),
-            convbn(128,128,5,2,dropout), # 2x conv(5,64)
+            nn.Conv2d(64,128,5,padding=2),
+            nn.Conv2d(128,128,5,padding=2), # 2x conv(5,128)
+            nn.PReLU(),
+            nn.MaxPool2d(2,stride=2),
 
-            _View(50*2*2),
-            nn.Linear(50*2*2, 2),
+            _View(1152),
+            nn.Linear(1152, 2),
             nn.BatchNorm1d(2),
             nn.ReLU(True),
             nn.Dropout(dropout),
