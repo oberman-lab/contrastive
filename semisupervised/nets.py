@@ -1,5 +1,5 @@
 from torch import nn as nn
-
+import torch.nn.functional as F
 
 class SimpleNet(nn.Module):  # With Projection data we should see the identity map from R^n to R^N/2
     '''Let's define the simplest network I can'''
@@ -46,3 +46,42 @@ class LeNet(nn.Module):
 
     def forward(self, x):
         return self.m(x)
+
+
+
+class CenterLeNet(nn.Module):  # as seen in https://kpzhang93.github.io/papers/eccv2016.pdf (center loss paper)
+    def __init__(self,dropout,device):
+        super(CenterLeNet, self).__init__()
+
+        self.conv1 = nn.Sequential(
+            nn.Conv2d(1,32,5,padding=2),
+            nn.Conv2d(32,32,5,padding=2), # 2x conv(5,32)
+            nn.PReLU(),
+            nn.MaxPool2d(2,stride=2)
+        ).to(device)
+        self.conv2 = nn.Sequential(
+            nn.Conv2d(32,64,5,padding=2),
+            nn.Conv2d(64,64,5,padding=2), # 2x conv(5,64)
+            nn.PReLU(),
+            nn.MaxPool2d(2,stride=2)
+        ).to(device)
+        self.conv3 = nn.Sequential(
+            nn.Conv2d(64,128,5,padding=2),
+            nn.Conv2d(128,128,5,padding=2), # 2x conv(5,128)
+            nn.PReLU(),
+            nn.MaxPool2d(2,stride=2)
+        ).to(device)
+        self.linear1 = nn.Sequential( # apply activation
+            _View(1152),
+            nn.Linear(1152, 2)
+        ).to(device)
+        self.linear2 = nn.Linear(2,10).to(device)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.conv2(x)
+        x = self.conv3(x)
+        x = F.relu(self.linear1(x))
+        x = self.linear2(x)
+
+        return x

@@ -1,4 +1,4 @@
-from losses.helpers import returnClosestCenter
+from semisupervised.losses.helpers import returnClosestCenter
 from torch.nn import MSELoss
 
 

@@ -1,12 +1,11 @@
-from arg_parser import ContrastiveArgParser
+from semisupervised.arg_parser import ContrastiveArgParser
 import torch
 import torch.optim as optim
-
-from losses.losses import semi_mse_loss
-from nets import *
-from procedures import run_epoch, test_model, train_supervised
-from data_processing.utils import *
-from data_processing.contrastive_data import ContrastiveData
+from semisupervised.losses.losses import semi_mse_loss
+from semisupervised.nets import *
+from semisupervised.procedures import run_epoch, test_model, train_supervised
+from semisupervised.data_processing.utils import *
+from semisupervised.data_processing.contrastive_data import ContrastiveData
 from torch.nn import MSELoss
 from torch.utils.tensorboard import SummaryWriter # for logging
 
@@ -73,7 +72,7 @@ if __name__ == "__main__":
         if args.dataset == 'Projection':
             model = SimpleNet(args.num_clusters,device)
         else:
-            model = LeNet(args.dropout,device)
+            model = CenterLeNet(args.dropout,device)
 
         optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
         loss_function = MSELoss()
@@ -84,4 +83,4 @@ if __name__ == "__main__":
             test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
             print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
-   
+    #torch.save(model,'CenterLeNet_saved')

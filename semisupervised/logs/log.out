@@ -1,0 +1,537 @@
+Contrastive Learning Run
+   batch_size_labeled:  32
+   batch_size_unlabeled:  128
+   epochs:  10
+   compare:  True
+   lr:  0.1
+   dropout:  0.25
+   momentum:  0.9
+   frac_labeled:  0.5
+   num_clusters:  5
+   dataset:  Projection
+   data_dir:  ./data/
+   log_interval:  100
+   loss_function:  MSELoss
+   cuda:  False
+
+
+Semi Supervised: [Epoch  1, batch 100] training loss: 0.0000
+Semi Supervised: [Epoch  1, batch 200] training loss: 0.0000
+[Epoch  1] Average test loss: 0.00000
+Wall clock time for epoch: 0.4909501075744629
+Semi Supervised: [Epoch  2, batch 100] training loss: 0.0000
+Semi Supervised: [Epoch  2, batch 200] training loss: 0.0000
+[Epoch  2] Average test loss: 0.00000
+Wall clock time for epoch: 0.4881620407104492
+Semi Supervised: [Epoch  3, batch 100] training loss: 0.0000
+Semi Supervised: [Epoch  3, batch 200] training loss: 0.0000
+[Epoch  3] Average test loss: 0.00000
+Wall clock time for epoch: 0.5026750564575195
+Semi Supervised: [Epoch  4, batch 100] training loss: 0.0000
+Semi Supervised: [Epoch  4, batch 200] training loss: 0.0000
+[Epoch  4] Average test loss: 0.00000
+Wall clock time for epoch: 0.5005021095275879
+Semi Supervised: [Epoch  5, batch 100] training loss: 0.0000
+Semi Supervised: [Epoch  5, batch 200] training loss: 0.0000
+[Epoch  5] Average test loss: 0.00000
+Wall clock time for epoch: 0.4862089157104492
+Semi Supervised: [Epoch  6, batch 100] training loss: 0.0000
+Semi Supervised: [Epoch  6, batch 200] training loss: 0.0000
+[Epoch  6] Average test loss: 0.00000
+Wall clock time for epoch: 0.5167591571807861
+Semi Supervised: [Epoch  7, batch 100] training loss: 0.0000
+Semi Supervised: [Epoch  7, batch 200] training loss: 0.0000
+[Epoch  7] Average test loss: 0.00000
+Wall clock time for epoch: 0.4945671558380127
+Semi Supervised: [Epoch  8, batch 100] training loss: 0.0000
+Semi Supervised: [Epoch  8, batch 200] training loss: 0.0000
+[Epoch  8] Average test loss: 0.00000
+Wall clock time for epoch: 0.5264589786529541
+Semi Supervised: [Epoch  9, batch 100] training loss: 0.0000
+Semi Supervised: [Epoch  9, batch 200] training loss: 0.0000
+[Epoch  9] Average test loss: 0.00000
+Wall clock time for epoch: 0.5035088062286377
+Semi Supervised: [Epoch 10, batch 100] training loss: 0.0000
+Semi Supervised: [Epoch 10, batch 200] training loss: 0.0000
+[Epoch 10] Average test loss: 0.00000
+Wall clock time for epoch: 0.5198400020599365
+Fully Supervised: [Epoch  1, batch  20] training loss: 0.0653
+Fully Supervised: [Epoch  1, batch  40] training loss: 0.0058
+Fully Supervised: [Epoch  1, batch  60] training loss: 0.0002
+Fully Supervised: [Epoch  1, batch  80] training loss: 0.0001
+Fully Supervised: [Epoch  1, batch 100] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 120] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 140] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 160] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 180] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 200] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 220] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 240] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 260] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 280] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 300] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 320] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 340] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 360] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 380] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 400] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 420] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 440] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 460] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 480] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 500] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 520] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 540] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 560] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 580] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 600] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 620] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 640] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 660] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 680] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 700] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 720] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 740] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 760] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 780] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 800] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 820] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 840] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 860] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 880] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 900] training loss: 0.0000
+Fully Supervised: [Epoch  1, batch 920] training loss: 0.0000
+[Epoch  1] Average test loss: 0.00000
+Wall clock time for epoch: 0.516057014465332
+Fully Supervised: [Epoch  2, batch  20] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch  40] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch  60] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch  80] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 100] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 120] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 140] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 160] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 180] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 200] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 220] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 240] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 260] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 280] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 300] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 320] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 340] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 360] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 380] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 400] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 420] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 440] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 460] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 480] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 500] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 520] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 540] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 560] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 580] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 600] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 620] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 640] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 660] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 680] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 700] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 720] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 740] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 760] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 780] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 800] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 820] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 840] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 860] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 880] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 900] training loss: 0.0000
+Fully Supervised: [Epoch  2, batch 920] training loss: 0.0000
+[Epoch  2] Average test loss: 0.00000
+Wall clock time for epoch: 0.5325207710266113
+Fully Supervised: [Epoch  3, batch  20] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch  40] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch  60] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch  80] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 100] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 120] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 140] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 160] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 180] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 200] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 220] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 240] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 260] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 280] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 300] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 320] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 340] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 360] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 380] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 400] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 420] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 440] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 460] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 480] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 500] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 520] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 540] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 560] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 580] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 600] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 620] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 640] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 660] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 680] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 700] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 720] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 740] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 760] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 780] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 800] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 820] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 840] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 860] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 880] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 900] training loss: 0.0000
+Fully Supervised: [Epoch  3, batch 920] training loss: 0.0000
+[Epoch  3] Average test loss: 0.00000
+Wall clock time for epoch: 0.5898008346557617
+Fully Supervised: [Epoch  4, batch  20] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch  40] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch  60] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch  80] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 100] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 120] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 140] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 160] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 180] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 200] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 220] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 240] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 260] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 280] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 300] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 320] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 340] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 360] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 380] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 400] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 420] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 440] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 460] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 480] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 500] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 520] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 540] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 560] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 580] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 600] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 620] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 640] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 660] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 680] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 700] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 720] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 740] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 760] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 780] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 800] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 820] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 840] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 860] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 880] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 900] training loss: 0.0000
+Fully Supervised: [Epoch  4, batch 920] training loss: 0.0000
+[Epoch  4] Average test loss: 0.00000
+Wall clock time for epoch: 0.5630068778991699
+Fully Supervised: [Epoch  5, batch  20] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch  40] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch  60] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch  80] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 100] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 120] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 140] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 160] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 180] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 200] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 220] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 240] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 260] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 280] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 300] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 320] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 340] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 360] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 380] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 400] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 420] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 440] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 460] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 480] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 500] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 520] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 540] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 560] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 580] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 600] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 620] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 640] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 660] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 680] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 700] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 720] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 740] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 760] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 780] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 800] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 820] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 840] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 860] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 880] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 900] training loss: 0.0000
+Fully Supervised: [Epoch  5, batch 920] training loss: 0.0000
+[Epoch  5] Average test loss: 0.00000
+Wall clock time for epoch: 0.573357105255127
+Fully Supervised: [Epoch  6, batch  20] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch  40] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch  60] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch  80] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 100] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 120] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 140] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 160] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 180] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 200] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 220] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 240] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 260] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 280] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 300] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 320] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 340] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 360] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 380] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 400] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 420] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 440] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 460] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 480] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 500] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 520] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 540] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 560] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 580] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 600] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 620] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 640] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 660] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 680] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 700] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 720] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 740] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 760] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 780] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 800] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 820] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 840] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 860] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 880] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 900] training loss: 0.0000
+Fully Supervised: [Epoch  6, batch 920] training loss: 0.0000
+[Epoch  6] Average test loss: 0.00000
+Wall clock time for epoch: 0.6022942066192627
+Fully Supervised: [Epoch  7, batch  20] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch  40] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch  60] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch  80] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 100] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 120] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 140] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 160] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 180] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 200] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 220] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 240] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 260] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 280] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 300] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 320] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 340] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 360] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 380] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 400] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 420] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 440] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 460] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 480] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 500] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 520] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 540] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 560] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 580] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 600] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 620] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 640] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 660] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 680] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 700] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 720] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 740] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 760] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 780] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 800] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 820] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 840] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 860] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 880] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 900] training loss: 0.0000
+Fully Supervised: [Epoch  7, batch 920] training loss: 0.0000
+[Epoch  7] Average test loss: 0.00000
+Wall clock time for epoch: 0.7329201698303223
+Fully Supervised: [Epoch  8, batch  20] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch  40] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch  60] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch  80] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 100] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 120] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 140] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 160] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 180] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 200] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 220] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 240] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 260] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 280] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 300] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 320] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 340] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 360] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 380] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 400] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 420] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 440] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 460] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 480] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 500] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 520] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 540] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 560] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 580] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 600] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 620] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 640] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 660] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 680] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 700] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 720] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 740] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 760] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 780] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 800] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 820] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 840] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 860] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 880] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 900] training loss: 0.0000
+Fully Supervised: [Epoch  8, batch 920] training loss: 0.0000
+[Epoch  8] Average test loss: 0.00000
+Wall clock time for epoch: 0.6006228923797607
+Fully Supervised: [Epoch  9, batch  20] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch  40] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch  60] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch  80] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 100] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 120] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 140] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 160] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 180] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 200] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 220] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 240] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 260] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 280] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 300] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 320] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 340] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 360] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 380] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 400] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 420] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 440] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 460] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 480] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 500] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 520] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 540] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 560] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 580] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 600] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 620] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 640] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 660] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 680] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 700] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 720] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 740] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 760] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 780] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 800] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 820] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 840] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 860] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 880] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 900] training loss: 0.0000
+Fully Supervised: [Epoch  9, batch 920] training loss: 0.0000
+[Epoch  9] Average test loss: 0.00000
+Wall clock time for epoch: 0.631397008895874
+Fully Supervised: [Epoch 10, batch  20] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch  40] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch  60] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch  80] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 100] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 120] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 140] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 160] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 180] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 200] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 220] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 240] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 260] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 280] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 300] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 320] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 340] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 360] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 380] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 400] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 420] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 440] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 460] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 480] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 500] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 520] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 540] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 560] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 580] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 600] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 620] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 640] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 660] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 680] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 700] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 720] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 740] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 760] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 780] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 800] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 820] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 840] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 860] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 880] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 900] training loss: 0.0000
+Fully Supervised: [Epoch 10, batch 920] training loss: 0.0000
+[Epoch 10] Average test loss: 0.00000
+Wall clock time for epoch: 0.5888209342956543

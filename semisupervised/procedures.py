@@ -1,7 +1,7 @@
 import torch
 import torchnet as tnt
-from data_processing import cycle_with
-from losses.helpers import returnClosestCenter
+from semisupervised.data_processing.utils import cycle_with
+from semisupervised.losses.helpers import returnClosestCenter
 
 
 
