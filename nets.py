@@ -51,7 +51,7 @@ class LeNet(nn.Module):
 
 class CenterLeNet(nn.Module):  # as seen in https://kpzhang93.github.io/papers/eccv2016.pdf (center loss paper)
     def __init__(self,dropout,device):
-        super(LeNet, self).__init__()
+        super(CenterLeNet, self).__init__()
 
         def convbn(ci,co,ksz,psz,p):
             return nn.Sequential(
