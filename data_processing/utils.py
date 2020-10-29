@@ -7,9 +7,13 @@ def cycle_no_memory(iterable):
 
 def cycle_with(leader, follower):
     #Itterator performance is good, but slow with data-loaders
+#if leader is not None:
     follower_cycle = cycle_no_memory(follower)
     for element in leader:
         yield (element, next(follower_cycle))
+# else:
+#     for element in follower:
+#         yield (None,element)
 
 
 if __name__ == "__main__":
@@ -29,4 +33,3 @@ if __name__ == "__main__":
     t1 = time.time()
 
     print(t1 - t0)
-

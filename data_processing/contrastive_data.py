@@ -68,12 +68,17 @@ class ContrastiveData:
         else:
             raise ValueError("Dataset name is not supported")
 
-        # split into labeled and unlabled training sets
-        labeled_train_data, unlabeled_train_data = torch.utils.data.random_split(train_data, [
-            math.floor(self.fraction_labeled * len(train_data)), math.floor((1 - self.fraction_labeled) * len(train_data))])
-        self.labeled_train_data = labeled_train_data
-        self.unlabeled_train_data = UnlabeledDataset(unlabeled_train_data)
-        self.test_data = test_data
+        if self.fraction_labeled == 1:
+            self.labeled_train_data = train_data
+            self.unlabeled_train_data = None
+            self.test_data = test_data
+        else:
+            # split into labeled and unlabled training sets
+            labeled_train_data, unlabeled_train_data = torch.utils.data.random_split(train_data, [
+                math.floor(self.fraction_labeled * len(train_data)), round((1 - self.fraction_labeled) * len(train_data))])
+            self.labeled_train_data = labeled_train_data
+            self.unlabeled_train_data = UnlabeledDataset(unlabeled_train_data)
+            self.test_data = test_data
 
     def get_data_loaders(self):
         '''Get data loaders'''
