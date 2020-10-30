@@ -20,7 +20,7 @@ kwargs = {'num_workers': 0, 'pin_memory': True} if args.cuda else {}
 num_clusters = 10
 r = 1
 pi = torch.acos(torch.zeros(1)).item() * 2
-t = torch.true_divide(2*pi*torch.arange(10),10)
+t = torch.div(2*pi*torch.arange(10),10)
 x = r * torch.cos(t)
 y = r * torch.sin(t)
 centers = torch.cat((x.view(-1,1), y.view(-1,1)), 1).to(device)
@@ -90,9 +90,9 @@ def test_genProjectionData():
     import shutil  # Don't want this to have access outside of this function
     path = 'tempDirectoryForTesting'
     data = ProjectionData(path, train=True, num_clusters=10)
-    item, label = data.__getitem__(0)
+    item, center,label = data.__getitem__(0)
     shutil.rmtree(path)  # Removes directory to force data generation
-    assert label.size() == item.size(), 'Couldn\'t generate ProjectionData'
+    assert item.size() == center.size(), 'Couldn\'t generate ProjectionData'
 
 
 def test_cycle_with():
