@@ -50,7 +50,7 @@ class LeNet(nn.Module):
         return self.m(x)
 
 class LeNet2D(nn.Module):
-    def __init__(self,dropout,device,centers):
+    def __init__(self,dropout,centers,device):
         super(LeNet2D, self).__init__()
 
         self.centers = centers

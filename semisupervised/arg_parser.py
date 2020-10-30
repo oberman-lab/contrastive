@@ -28,5 +28,5 @@ class ContrastiveArgParser(argparse.ArgumentParser):
         self.add_argument('--model', type=str, default='LeNet', metavar='MDL')
         self.add_argument('--log-dir', type=str, default='None', metavar='LDIR')
         self.add_argument('--log-interval', type=int, default=100, metavar='LOGI')
-        self.add_argument('--tsne', type=bool, default=False, metavar='TSNE')
+        self.add_argument('--track', type=bool, default=False, metavar='TSNE')
         self.add_argument('--loss-function', type=str, default='MSELoss', metavar='LF')
