@@ -88,7 +88,7 @@ class CenterLeNet(nn.Module):  # as seen in https://kpzhang93.github.io/papers/e
 
 class LeNet2D(nn.Module):
     def __init__(self,dropout,device,centers):
-        super(LeNetplus, self).__init__()
+        super(LeNet2D, self).__init__()
         
         self.centers = centers
         

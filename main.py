@@ -3,7 +3,7 @@ import torch
 import torch.optim as optim
 from semisupervised.losses.losses import semi_mse_loss
 from semisupervised.nets import *
-from semisupervised.procedures import run_epoch, test_model, train_supervised
+from semisupervised.procedures import run_epoch, test_model, train_supervised, plot_model
 from semisupervised.data_processing.utils import *
 from semisupervised.data_processing.contrastive_data import ContrastiveData
 from torch.nn import MSELoss
@@ -71,6 +71,7 @@ if __name__ == "__main__":
         t0 = time.time()
         run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
         test_model(model,epoch,data_loaders, MSELoss(), device,writer)
+        torch.save(model.state_dict(), 'model'+str(epoch)+'.pt')
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
     plot_model(model, args.epochs, data_loaders, device, 'cluster_semi.png')
@@ -93,6 +94,7 @@ if __name__ == "__main__":
             t0 = time.time()
             train_supervised(model,epoch,data_loaders,optimizer,device,args,loss_function,writer)
             test_model(model,epoch,data_loaders, MSELoss(), device,writer)
+            torch.save(model.state_dict(), 'model'+str(epoch)+'.pt')
             print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
         plot_model(model, args.epochs, data_loaders, device,'cluster_supervised.png')
