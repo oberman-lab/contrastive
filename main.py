@@ -51,7 +51,7 @@ if __name__ == "__main__":
             model = LeNet2D(args.dropout,device,centers)
         elif args.model == "LeNet":
             centers = torch.eye(num_clusters, num_clusters).to(device)
-            model = LeNet(args.dropout,device,centers)
+            model = LeNet(args.dropout,centers,device)
 
 
 
