@@ -1,21 +1,23 @@
 from losses.helpers import returnClosestCenter
 from torch.nn import MSELoss
 
-def semi_center_loss(centers_features,centers_ll):
+def semi_center_loss(centers):
     '''Take list of centers and gives a loss function with grouping based on those centers'''
     
-    def basic_loss(output_features, output_ll, labels_features, labels_ll):
+    def basic_loss(unlabeled_output, output, labels):
         mse = MSELoss()
-        return mse(output_features, labels_features) + mse(output_ll, labels_ll) + mse(unlabeled_output_features, returnClosestCenter(centers_features, unlabeled_output_features)) + mse(unlabeled_output_ll, returnClosestCenter(centers_ll, unlabeled_output_ll))
+        return mse(output, labels) + mse(unlabeled_output, returnClosestCenter(centers, unlabeled_output))
+        
+        # return mse(output_features, labels_features) + mse(output_ll, labels_ll) + mse(unlabeled_output_features, returnClosestCenter(centers_features, unlabeled_output_features)) + mse(unlabeled_output_ll, returnClosestCenter(centers_ll, unlabeled_output_ll))
     
     return basic_loss
 
 def center_loss():
     '''Take list of centers and gives a loss function with grouping based on those centers'''
     
-    def basic_loss(output_features, output_ll, labels_features, labels_ll):
+    def basic_loss(output, labels):
         mse = MSELoss()
-        return mse(output_features, labels_features) + mse(output_ll, labels_ll)
+        return mse(output, labels)
     
     return basic_loss
 

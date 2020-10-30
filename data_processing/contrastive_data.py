@@ -29,8 +29,10 @@ class ContrastiveData:
                 transforms.ToTensor(),
                 transforms.Normalize((0.1307,), (0.3081,))
             ]))
-            train_data = labels_to_centers(train_data,10,centers)
-            test_data = labels_to_centers(test_data,10,centers)
+            
+#            print(train_data)
+#            train_data = labels_to_centers(train_data,10,centers)
+#            test_data = labels_to_centers(test_data,10,centers)
 
         elif dataset_name == "FashionMNIST":
             train_data = datasets.FashionMNIST(self.data_directory, train=True, download=True,
@@ -42,7 +44,7 @@ class ContrastiveData:
                 transforms.ToTensor(),
                 transforms.Normalize((0.2860,), (0.3205,))
             ]))
-
+            
             train_data = labels_to_centers(train_data,10)
             test_data = labels_to_centers(test_data,10)
 
@@ -66,13 +68,14 @@ class ContrastiveData:
             test_data = ProjectionData(self.data_directory,train = False,num_clusters=self.num_clusters)
         else:
             raise ValueError("Dataset name is not supported")
-
+        
         # split into labeled and unlabled training sets
         labeled_train_data, unlabeled_train_data = torch.utils.data.random_split(train_data, [
             math.floor(self.fraction_labeled * len(train_data)), math.floor((1 - self.fraction_labeled) * len(train_data))])
         self.labeled_train_data = labeled_train_data
         self.unlabeled_train_data = UnlabeledDataset(unlabeled_train_data)
         self.test_data = test_data
+        self.unlabeled_train_data_with_labels = unlabeled_train_data
 
     def get_data_loaders(self):
         '''Get data loaders'''
@@ -82,10 +85,13 @@ class ContrastiveData:
         unlabeled_loader = torch.utils.data.DataLoader(self.unlabeled_train_data, batch_size=self.batch_size_unlabeled,
                                                        shuffle=True,
                                                        **self.kwargs)
+                                                       
+        unlabeled_with_labels_loader = torch.utils.data.DataLoader(self.unlabeled_train_data_with_labels, batch_size=self.batch_size_unlabeled,shuffle=True,**self.kwargs)
+        
         test_loader = torch.utils.data.DataLoader(
             self.test_data,
             batch_size=1000, shuffle=True, **self.kwargs)
-        return {'labeled': labeled_loader, 'unlabeled': unlabeled_loader, 'test': test_loader}
+        return {'labeled': labeled_loader, 'unlabeled': unlabeled_loader, 'test': test_loader, 'unlabeled_with_labels': unlabeled_with_labels_loader}
 
 
 class labels_to_centers(Dataset):

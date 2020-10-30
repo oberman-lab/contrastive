@@ -49,8 +49,10 @@ class LeNet(nn.Module):
         return self.m(x)
 
 class LeNetplus(nn.Module):
-    def __init__(self,dropout,device):
+    def __init__(self,dropout,device,centers):
         super(LeNetplus, self).__init__()
+        
+        self.centers = centers
         
         def convbn(ci,co,ksz,psz,p):
             return nn.Sequential(
@@ -69,13 +71,15 @@ class LeNetplus(nn.Module):
                                convbn(64,128,5,2,dropout),
                                _View(128*3*3),
                                nn.Linear(128*3*3,2)).to(device)
-        self.ll = nn.Linear(2,10).to(device)
+#        self.ll = nn.Linear(2,10).to(device)
 
+#    def forward(self, x):
+#        return self.ll(self.m(x))
+
+#    def features(self, x):
+#        return self.m(x)
+
+#    def last_layer(self, x):
+#        return self.ll(x)
     def forward(self, x):
-        return self.ll(self.m(x))
-                                      
-    def features(self, x):
         return self.m(x)
-
-    def last_layer(self, x):
-        return self.ll(x)
