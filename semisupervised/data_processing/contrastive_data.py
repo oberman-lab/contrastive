@@ -83,6 +83,12 @@ class ContrastiveData:
         unlabeled_loader = torch.utils.data.DataLoader(self.unlabeled_train_data, batch_size=self.batch_size_unlabeled,
                                                        shuffle=True,
                                                        **self.kwargs)
+
+
+        # dataset of the unlabeled images with the labels for plotting purposes
+        unlabeled_with_labels_loader = torch.utils.data.DataLoader(self.unlabeled_train_data_with_labels, batch_size=self.batch_size_unlabeled,shuffle=True,**self.kwargs)
+
+
         test_loader = torch.utils.data.DataLoader(
             self.test_data,
             batch_size=1000, shuffle=True, **self.kwargs)
@@ -90,11 +96,12 @@ class ContrastiveData:
 
 
 class labels_to_centers(Dataset):
-    ''' Simple class to convert labels from digits to one-hot centers'''
+    ''' Simple class to convert labels from digits to centers'''
 
-    def __init__(self, input_dataset: Dataset,num_categories: int):
+    def __init__(self, input_dataset: Dataset, centers):
         self.input_dataset = input_dataset
-        self.eye = torch.eye(num_categories)
+        self.eye = centers.to("cpu")
+
 
     def __len__(self):
         return len(self.input_dataset)
@@ -140,11 +147,11 @@ class ProjectionData(Dataset):
         self.data, self.labels = torch.load(os.path.join(self.datafolder, data_file))
 
     def __getitem__(self,idx:int):
-        item,label = self.data[idx],self.labels[idx]
+        item,center_label,label = self.data[idx],self.labels[idx],torch.argmax(self.labels[idx])
         if torch.cuda.is_available():
             item.cuda()
             label.cuda()
-        return item,label
+        return item,center_label,label
 
     def __len__(self):
         return len(self.data)
