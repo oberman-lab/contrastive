@@ -107,7 +107,7 @@ def getTSNE(model,current_epoch,data_loaders,nsamples,device):
         for i in range(nsamples): # grab
             data,center,label = dataset[i]
             data = data.unsqueeze(0)
-            labels.append(label.item())
+            labels.append(label)
             outputs.append(model(data).numpy()[0])
     print('Calculating TSNE reduction...')
     model.to(device)
