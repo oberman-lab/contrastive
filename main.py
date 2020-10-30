@@ -42,6 +42,7 @@ if __name__ == "__main__":
         model = SimpleNet(args.num_clusters,centers,device)
     else:
         num_clusters = 10
+
         if args.model == "LeNet2D":
             r = 1
             pi = torch.acos(torch.zeros(1)).item() * 2
@@ -56,7 +57,7 @@ if __name__ == "__main__":
 
 
     # Get data
-    data = ContrastiveData(args.frac_labeled, args.data_dir, centers, batch_size_labeled=args.batch_size_labeled,
+    data = ContrastiveData(args.frac_labeled, args.data_dir, batch_size_labeled=args.batch_size_labeled,
                            batch_size_unlabeled=args.batch_size_unlabeled, dataset_name=args.dataset,
                            num_clusters=num_clusters, **kwargs)
     data_loaders = data.get_data_loaders()
@@ -73,6 +74,7 @@ if __name__ == "__main__":
         torch.save(model,'./models/modelStruct')
 
     # Train the semi-supervised model
+
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
         if args.track:
@@ -87,12 +89,14 @@ if __name__ == "__main__":
         tsne_dict[epoch]=getTSNE(model,epoch,data_loaders,nsamples,device)
         torch.save(model.state_dict(), './models/model_semi'+str(epoch)+'.pt')
 
+
     # Train the supervised model for comparison
     if args.compare:
         # Reset model and accesories
         if args.dataset == "Projection":
             model = SimpleNet(args.num_clusters,centers,device)
         else:
+
             num_clusters = 10
             if args.model == "LeNet2D":
                 model = LeNet2D(args.dropout,centers,device)
@@ -101,6 +105,7 @@ if __name__ == "__main__":
 
         optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
         loss_function = MSELoss()
+
 
         if args.track:
             torch.save(model.state_dict(), './models/model_fully'+str(0)+'.pt')
@@ -114,3 +119,4 @@ if __name__ == "__main__":
 
     if args.track:
         torch.save(tsne_dict,'TSNE_dict')
+
