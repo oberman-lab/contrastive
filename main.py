@@ -55,7 +55,7 @@ if __name__ == "__main__":
     else:
         model = LeNet(args.dropout,device)
 
-    loss_function = semi_mse_loss(centers,lam = 0.1)
+    loss_function = semi_mse_loss(centers,lam = 1)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
     # Train the semi-supervised model
