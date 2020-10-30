@@ -47,5 +47,4 @@ data = ContrastiveData(0.01, './data', centers, batch_size_labeled=64,
 data_loaders = data.get_data_loaders()
 model = torch.load(modeldir+'modelStruct',map_location='cpu')
 
-
 plot_model(model, epochs, data_loaders,modeldir,'supervised.png')
