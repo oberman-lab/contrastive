@@ -79,7 +79,7 @@ def getTSNE(model,current_epoch,data_loaders,nsamples,device):
             data,label = dataset.__getitem__(i)
             data = data.unsqueeze(0)
             labels.append(torch.argmax(label).item())
-            outputs.append(model(data).numpy())
+            outputs.append(model(data).numpy()[0])
     print('Calculating TSNE reduction...')
     model.to(device)
     tsne = TSNE(n_components=2).fit_transform(outputs) # Get TSNE reduction
