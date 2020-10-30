@@ -63,11 +63,13 @@ if __name__ == "__main__":
     nsamples = 5000
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
-        tsne_dict[epoch-1]=getTSNE(model,epoch,data_loaders,nsamples,device)
+        if args.tsne:
+            tsne_dict[epoch-1]=getTSNE(model,epoch,data_loaders,nsamples,device)
         run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
         test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
-    tsne_dict[epoch]=getTSNE(model,epoch,data_loaders,nsamples,device)
+    if args.tsne:
+        tsne_dict[epoch]=getTSNE(model,epoch,data_loaders,nsamples,device)
 
 
     # Train the supervised model for comparison

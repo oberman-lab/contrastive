@@ -27,4 +27,5 @@ class ContrastiveArgParser(argparse.ArgumentParser):
         self.add_argument('--data-dir', type=str, default='./data', metavar='DDIR')
         self.add_argument('--log-dir', type=str, default='None', metavar='LDIR')
         self.add_argument('--log-interval', type=int, default=100, metavar='LOGI')
+        self.add_argument('--tsne', type=bool, default=False, metavar='TSNE')
         self.add_argument('--loss-function', type=str, default='MSELoss', metavar='LF')
