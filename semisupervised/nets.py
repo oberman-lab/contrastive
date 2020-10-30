@@ -49,7 +49,6 @@ class LeNet(nn.Module):
     def forward(self, x):
         return self.m(x)
 
-
 class LeNet2D(nn.Module):
     def __init__(self,dropout,centers,device):
         super(LeNet2D, self).__init__()

@@ -10,7 +10,6 @@ def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_f
     # We loop over all batches in the (bigger) unlabeled set. While we do so we loop also on the labeled data, starting over if necessary.
     # This means that unlabeled data may be present many times in the same epoch.
     # The number of times that the labeled data is processed is dependent on the batch size of the labeled data.
-    
     for batch_ix, (unlabeled_images, (labeled_images, centers_labels, labels)) in enumerate(
           cycle_with(leader=data_loaders['unlabeled'], follower=data_loaders['labeled'])):
         unlabeled_images = unlabeled_images.to(device)
@@ -20,7 +19,6 @@ def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_f
         output = model(labeled_images)
         unlabeled_output = model(unlabeled_images)
         loss = loss_function(unlabeled_output, output, centers_labels)
-
 
         optimizer.zero_grad()
         loss.backward()
@@ -34,12 +32,11 @@ def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_f
 def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss_function,writer = None):
     model.train()
 
-    for batch_ix,(data,labels) in enumerate(data_loaders['labeled']):
+    for batch_ix,(data,centers_labels,labels) in enumerate(data_loaders['labeled']):
         data = data.to(device)
         centers_labels = centers_labels.to(device)
-
         output = model(data)
-        loss = loss_function(output,labels)
+        loss = loss_function(output,centers_labels)
 
         optimizer.zero_grad()
         loss.backward()
@@ -49,17 +46,18 @@ def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss
                   (current_epoch, batch_ix, loss))
     if writer is not None:
         writer.add_scalar('train/loss/fully', loss,current_epoch)
-def test_model(model,current_epoch, data_loaders, loss_function,centers, device,writer):
+
+def test_model(model,current_epoch, data_loaders, loss_function, device,writer):
     model.eval()
     top1 = tnt.meter.ClassErrorMeter(accuracy = True)
     test_loss = tnt.meter.AverageValueMeter()
-    with torch.no_grad():  
+    with torch.no_grad():
         for i,(data, target,labels) in enumerate(data_loaders['test']):
             data = data.to(device)
             target = target.to(device)
             output = model(data)
 
-            top1.add(-torch.cdist(output,centers),torch.argmax(target,dim = 1))
+            top1.add(-torch.cdist(output,model.centers),labels)
             loss = loss_function(output, target)
             test_loss.add(loss.cpu())
 
@@ -68,6 +66,7 @@ def test_model(model,current_epoch, data_loaders, loss_function,centers, device,
     if writer is not None:
         writer.add_scalar('test/loss',  test_loss.value()[0],current_epoch)
         writer.add_scalar('test/acc', top1.value()[0],current_epoch)
+
 
 def getTSNE(model,current_epoch,data_loaders,nsamples,device):
     model.cpu()
