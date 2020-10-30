@@ -4,7 +4,7 @@ from semisupervised.data_processing.utils import cycle_with
 from semisupervised.losses.helpers import returnClosestCenter
 import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
-
+import pdb
 
 
 def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_function ,writer):
@@ -17,7 +17,7 @@ def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_f
         unlabeled_images = unlabeled_images.to(device)
         labeled_images = labeled_images.to(device)
         centers_labels = centers_labels.to(device)
-        breakpoint()
+        pdb.set_trace()
         output = model(labeled_images)
         unlabeled_output = model(unlabeled_images)
         loss = loss_function(unlabeled_output, output, centers_labels)
