@@ -77,7 +77,7 @@ def getTSNE(model,current_epoch,data_loaders,nsamples,device):
     with torch.no_grad():
         for i in range(nsamples): # grab
             data,label = dataset.__getitem__(i)
-            data = torch.tensor([data])
+            torch.unsqueeze(data,1)
             labels.append(torch.argmax(label).item())
             outputs.append(model(data).numpy())
     print('Calculating TSNE reduction...')
