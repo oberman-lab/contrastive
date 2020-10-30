@@ -3,7 +3,7 @@ import torch
 import torch.optim as optim
 from semisupervised.losses.losses import semi_mse_loss
 from semisupervised.nets import *
-from semisupervised.procedures import run_epoch, test_model, train_supervised
+from semisupervised.procedures import run_epoch, test_model, train_supervised,getTSNE
 from semisupervised.data_processing.utils import *
 from semisupervised.data_processing.contrastive_data import ContrastiveData
 from torch.nn import MSELoss
@@ -55,15 +55,21 @@ if __name__ == "__main__":
     else:
         model = LeNet(args.dropout,device)
 
-    loss_function = semi_mse_loss(centers)
+    loss_function = semi_mse_loss(centers,lam = 1)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
     # Train the semi-supervised model
+    tsne_dict = {} # For visualizing
+    nsamples = 5000
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
+        if args.tsne:
+            tsne_dict[epoch-1]=getTSNE(model,epoch,data_loaders,nsamples,device)
         run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
         test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
+    if args.tsne:
+        tsne_dict[epoch]=getTSNE(model,epoch,data_loaders,nsamples,device)
 
 
     # Train the supervised model for comparison
@@ -72,7 +78,7 @@ if __name__ == "__main__":
         if args.dataset == 'Projection':
             model = SimpleNet(args.num_clusters,device)
         else:
-            model = CenterLeNet(args.dropout,device)
+            model = LeNet(args.dropout,device)
 
         optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
         loss_function = MSELoss()
@@ -83,4 +89,5 @@ if __name__ == "__main__":
             test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
             print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
-    #torch.save(model,'CenterLeNet_saved')
+    torch.save(model.cpu(),'LeNet_saved')
+    torch.save(tsne_dict,'TSNE_dict')

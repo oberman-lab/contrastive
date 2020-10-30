@@ -75,13 +75,14 @@ class CenterLeNet(nn.Module):  # as seen in https://kpzhang93.github.io/papers/e
             _View(1152),
             nn.Linear(1152, 2)
         ).to(device)
+        self.bnorm1 = nn.BatchNorm1d(2).to(device)
         self.linear2 = nn.Linear(2,10).to(device)
 
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
-        x = F.relu(self.linear1(x))
+        x = F.relu(self.bnorm1(self.linear1(x)))
         x = self.linear2(x)
 
         return x

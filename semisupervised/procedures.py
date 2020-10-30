@@ -2,7 +2,7 @@ import torch
 import torchnet as tnt
 from semisupervised.data_processing.utils import cycle_with
 from semisupervised.losses.helpers import returnClosestCenter
-
+from sklearn.manifold import TSNE
 
 
 def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_function ,writer):
@@ -49,13 +49,12 @@ def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss
                   (current_epoch, batch_ix, loss))
     if writer is not None:
         writer.add_scalar('train/loss/fully', loss,current_epoch)
-
 def test_model(model,current_epoch, data_loaders, loss_function,centers, device,writer):
     model.eval()
     top1 = tnt.meter.ClassErrorMeter(accuracy = True)
     test_loss = tnt.meter.AverageValueMeter()
     with torch.no_grad():
-        for data, target in data_loaders['test']:
+        for i,(data, target) in enumerate(data_loaders['test']):
             data = data.to(device)
             target = target.to(device)
             output = model(data)
@@ -69,3 +68,21 @@ def test_model(model,current_epoch, data_loaders, loss_function,centers, device,
     if writer is not None:
         writer.add_scalar('test/loss',  test_loss.value()[0],current_epoch)
         writer.add_scalar('test/acc', top1.value()[0],current_epoch)
+
+def getTSNE(model,current_epoch,data_loaders,nsamples,device):
+    model.cpu()
+    model.eval()
+    labels = []
+    outputs = []
+    dataset = data_loaders['test'].dataset
+    with torch.no_grad():
+        for i in range(nsamples): # grab
+            data,label = dataset.__getitem__(i)
+            data = data.unsqueeze(0)
+            labels.append(torch.argmax(label).item())
+            outputs.append(model(data).numpy()[0])
+    print('Calculating TSNE reduction...')
+    model.to(device)
+    tsne = TSNE(n_components=2,random_state=13431).fit_transform(outputs) # Get TSNE reduction, random state for reproducibility
+
+    return [tsne,labels]
