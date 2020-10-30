@@ -44,7 +44,7 @@ if __name__ == "__main__":
         if args.model == "LeNet2D":
             r = 1
             pi = torch.acos(torch.zeros(1)).item() * 2
-            t = torch.true_divide(2*pi*torch.arange(10),10)
+            t = torch.div(2*pi*torch.arange(10),10)
             x = r * torch.cos(t)
             y = r * torch.sin(t)
             centers = torch.cat((x.view(-1,1), y.view(-1,1)), 1).to(device)
