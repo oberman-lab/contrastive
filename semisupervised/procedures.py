@@ -2,9 +2,7 @@ import torch
 import torchnet as tnt
 from semisupervised.data_processing.utils import cycle_with
 from semisupervised.losses.helpers import returnClosestCenter
-import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
-import pdb
 
 
 def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_function ,writer):
@@ -69,33 +67,6 @@ def test_model(model,current_epoch, data_loaders, loss_function, device,writer):
         writer.add_scalar('test/loss',  test_loss.value()[0],current_epoch)
         writer.add_scalar('test/acc', top1.value()[0],current_epoch)
 
-
-def plot_model(model, epochs, data_loaders, device, saveas):
-    model.eval()
-    with torch.no_grad():
-        fig, axes = plt.subplots(epochs+1,3,figsize=(20,20))
-        titles = ['labeled','unlabeled','test']
-        color_list = ['gold','darkblue','darkred','green','steelblue','darkturquoise','orange','purple','gray','palevioletred']
-        for epoch in range(epochs+1):
-            model.load_state_dict(torch.load('model'+str(epoch)+'.pt',map_location=torch.device('cpu')))
-            for ix,dataset in enumerate(['labeled','unlabeled_with_labels','test']):
-                top1 = tnt.meter.ClassErrorMeter(accuracy = True)
-                for data, target, labels in data_loaders[dataset]:
-                   data = data.to(device)
-                   target = target.to("cpu")
-                   output = model(data).to("cpu")
-                   top1.add(-torch.cdist(output,model.centers.to("cpu")),labels)
-                   for i in range(len(color_list)):
-                       axes[epoch,ix].scatter(output[labels==i,:][:,0],output[labels==i,:][:,1],color=color_list[i],s=1)
-                       axes[epoch,ix].scatter(model.centers[i,0].to("cpu"),model.centers[i,1].to("cpu"),color='black')
-                       axes[epoch,ix].set_xlim((-2,2))
-                       axes[epoch,ix].set_ylim((-2,2))
-                   if epoch == 0 :
-                       axes[epoch,ix].set_title(titles[ix])
-                axes[epoch,ix].set_aspect('equal')
-                axes[epoch,ix].set_xlabel('Accuracy %.2f'%top1.value()[0])
-    plt.subplots_adjust(wspace=-.5, hspace=0.2)
-    plt.savefig(saveas,bbox_inches='tight',dpi=100)
 
 def getTSNE(model,current_epoch,data_loaders,nsamples,device):
     model.cpu()

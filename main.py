@@ -74,15 +74,15 @@ if __name__ == "__main__":
         t0 = time.time()
         if args.track:
             tsne_dict[epoch-1]=getTSNE(model,epoch,data_loaders,nsamples,device)
-            torch.save(model.state_dict(), 'model'+str(epoch-1)+'.pt')
-            
+            torch.save(model.state_dict(), './models/model'+str(epoch-1)+'.pt')
+
         run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
         test_model(model,epoch,data_loaders, MSELoss(), device,writer)
 
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
     if args.track:
         tsne_dict[epoch]=getTSNE(model,epoch,data_loaders,nsamples,device)
-        torch.save(model.state_dict(), 'model'+str(epoch)+'.pt')
+        torch.save(model.state_dict(), './models/model'+str(epoch)+'.pt')
 
     # Train the supervised model for comparison
     if args.compare:
@@ -100,13 +100,13 @@ if __name__ == "__main__":
         loss_function = MSELoss()
 
         if args.track:
-            torch.save(model.state_dict(), 'model'+str(0)+'.pt')
+            torch.save(model.state_dict(), './models/model'+str(0)+'.pt')
         for epoch in range(1, args.epochs + 1):
             t0 = time.time()
             train_supervised(model,epoch,data_loaders,optimizer,device,args,loss_function,writer)
             test_model(model,epoch,data_loaders, MSELoss(), device,writer)
             if args.track:
-                torch.save(model.state_dict(), 'model'+str(epoch)+'.pt')
+                torch.save(model.state_dict(), './models/model'+str(epoch)+'.pt')
             print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
     if args.track:
