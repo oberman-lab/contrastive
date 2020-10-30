@@ -1,5 +1,6 @@
 from semisupervised.arg_parser import ContrastiveArgParser
 import torch
+from os import makedirs
 import torch.optim as optim
 from semisupervised.losses.losses import semi_mse_loss
 from semisupervised.nets import *
@@ -68,6 +69,7 @@ if __name__ == "__main__":
     if args.track:
         tsne_dict = {} # For visualizing
         nsamples = 5000
+        makedirs('models', exist_ok=True)
 
     # Train the semi-supervised model
     for epoch in range(1, args.epochs + 1):
