@@ -86,30 +86,3 @@ class CenterLeNet(nn.Module):  # as seen in https://kpzhang93.github.io/papers/e
         x = self.linear2(x)
 
         return x
-
-class LeNet2D(nn.Module):
-    def __init__(self,dropout,device,centers):
-        super(LeNet2D, self).__init__()
-        
-        self.centers = centers
-        
-        def convbn(ci,co,ksz,psz,p):
-            return nn.Sequential(
-                                 nn.Conv2d(ci,co,ksz,stride=1,padding=2),
-                                 nn.BatchNorm2d(co),
-                                 nn.ReLU(True),
-                                 nn.Conv2d(co,co,ksz,stride=1,padding=2),
-                                 nn.BatchNorm2d(co),
-                                 nn.ReLU(True),
-                                 nn.MaxPool2d(psz,stride=psz),
-                                 nn.Dropout(p))
-        
-        self.m = nn.Sequential(
-                               convbn(1,32,5,2,dropout),
-                               convbn(32,64,5,2,dropout),
-                               convbn(64,128,5,2,dropout),
-                               _View(128*3*3),
-                               nn.Linear(128*3*3,2)).to(device)
-
-    def forward(self, x):
-        return self.m(x)

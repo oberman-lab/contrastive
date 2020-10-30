@@ -17,31 +17,23 @@ if torch.cuda.is_available():
     args.cuda = True
 kwargs = {'num_workers': 0, 'pin_memory': True} if args.cuda else {}
 
-num_clusters = 10
-r = 1
-pi = torch.acos(torch.zeros(1)).item() * 2
-t = torch.true_divide(2*pi*torch.arange(10),10)
-x = r * torch.cos(t)
-y = r * torch.sin(t)
-centers = torch.cat((x.view(-1,1), y.view(-1,1)), 1).to(device)
-
 
 ''' Testing functions below here '''
 
 def test_labelsStrippedMNIST():
     '''If the labels are stripped, the first element '''
-    dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, centers, args.batch_size_labeled, args.batch_size_unlabeled,
-                                  dataset_name='MNIST', **kwargs).get_data_loaders()
+    dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, args.batch_size_labeled, args.batch_size_unlabeled,
+                                  dataset_name='Projection', **kwargs).get_data_loaders()
     test = iter(dataLoaders['unlabeled'])
     assert (type(next(test)) is not list), 'The labels were not stripped off'
 
 
 def test_loadMNIST():
     try:
-        dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, centers, args.batch_size_labeled,
+        dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, args.batch_size_labeled,
                                       args.batch_size_unlabeled, dataset_name='MNIST', **kwargs).get_data_loaders()
 
-        for i,(data,target,label) in enumerate(dataLoaders['labeled']):
+        for i,(data,label) in enumerate(dataLoaders['labeled']):
             print(label)
 
     except Exception:
@@ -51,9 +43,9 @@ def test_loadMNIST():
 
 def test_loadFashionMNIST():
     try:
-        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir, centers, args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'FashionMNIST', **kwargs).get_data_loaders()
+        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'FashionMNIST', **kwargs).get_data_loaders()
 
-        for i,(data,target,label) in enumerate(dataLoaders['labeled']):
+        for i,(data,label) in enumerate(dataLoaders['labeled']):
             print(label)
     except Exception:
         print(traceback.print_exc())
@@ -61,17 +53,17 @@ def test_loadFashionMNIST():
 
 def test_CIFAR10():
     try:
-        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir, centers, args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'CIFAR10', **kwargs).get_data_loaders()
-        for i,(data,target,label) in enumerate(dataLoaders['labeled']):
+        dataLoaders = ContrastiveData(args.frac_labeled,args.data_dir,args.batch_size_labeled,args.batch_size_unlabeled,dataset_name = 'CIFAR10', **kwargs).get_data_loaders()
+        for i,(data,label) in enumerate(dataLoaders['labeled']):
             print(label)
     except Exception:
         print(traceback.print_exc())
-        pytest.fail("Loading CIFAR10 failed")
+        pytest.fail("Loading Fashion MNIST failed")
 
 
 def test_loadProjection():
     try:
-        dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, centers,args.batch_size_labeled,
+        dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, args.batch_size_labeled,
                                       args.batch_size_unlabeled, dataset_name='Projection', **kwargs).get_data_loaders()
     except Exception:
         print(traceback.print_exc())
@@ -80,7 +72,7 @@ def test_loadProjection():
 
 def test_badData():
     with pytest.raises(ValueError) as context:
-        dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, centers, args.batch_size_labeled,
+        dataLoaders = ContrastiveData(args.frac_labeled, args.data_dir, args.batch_size_labeled,
                                       args.batch_size_unlabeled, dataset_name='!@##$$)*^!^@##@****!!@GDTGENOTADATASET',
                                       **kwargs)
     assert "Dataset name is not supported" in str(context)
