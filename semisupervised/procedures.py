@@ -83,6 +83,6 @@ def getTSNE(model,current_epoch,data_loaders,nsamples,device):
             outputs.append(model(data).numpy()[0])
     print('Calculating TSNE reduction...')
     model.to(device)
-    tsne = TSNE(n_components=2).fit_transform(outputs) # Get TSNE reduction
+    tsne = TSNE(n_components=2,random_state=13431).fit_transform(outputs) # Get TSNE reduction, random state for reproducibility
 
     return [tsne,labels]
