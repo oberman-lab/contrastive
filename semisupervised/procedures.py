@@ -70,16 +70,17 @@ def test_model(model,current_epoch, data_loaders, loss_function,centers, device,
         writer.add_scalar('test/acc', top1.value()[0],current_epoch)
 
 def getTSNE(model,current_epoch,data_loaders,nsamples,device):
+    model.cpu()
     labels = []
     outputs = []
     dataset = data_loaders['test'].dataset
     with torch.no_grad():
         for i in range(nsamples): # grab
             data,label = dataset.__getitem__(i)
-            data,label = data.to(device),label.to(device)
             labels.append(torch.argmax(label).item())
             outputs.append(model(data).numpy())
     print('Calculating TSNE reduction...')
+    model.to(device)
     tsne = TSNE(n_components=2).fit_transform(outputs) # Get TSNE reduction
 
     return [tsne,labels]
