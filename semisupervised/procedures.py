@@ -71,6 +71,7 @@ def test_model(model,current_epoch, data_loaders, loss_function,centers, device,
 
 def getTSNE(model,current_epoch,data_loaders,nsamples,device):
     model.cpu()
+    model.eval()
     labels = []
     outputs = []
     dataset = data_loaders['test'].dataset
