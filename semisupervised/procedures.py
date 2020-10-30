@@ -37,7 +37,7 @@ def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss
     for batch_ix,(data,centers_labels,labels) in enumerate(data_loaders['labeled']):
         data = data.to(device)
         centers_labels = centers_labels.to(device)
-
+        breakpoint()
         output = model(data)
         loss = loss_function(output,centers_labels)
 
@@ -97,7 +97,7 @@ def plot_model(model, epochs, data_loaders, device, saveas):
                 axes[epoch,ix].set_xlabel('Accuracy %.2f'%top1.value()[0])
     plt.subplots_adjust(wspace=-.5, hspace=0.2)
     plt.savefig(saveas,bbox_inches='tight',dpi=100)
-                   
+
 def getTSNE(model,current_epoch,data_loaders,nsamples,device):
     model.cpu()
     model.eval()
