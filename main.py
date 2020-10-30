@@ -3,7 +3,7 @@ import torch
 import torch.optim as optim
 from semisupervised.losses.losses import semi_mse_loss
 from semisupervised.nets import *
-from semisupervised.procedures import run_epoch, test_model, train_supervised, plot_model
+from semisupervised.procedures import run_epoch, test_model, train_supervised, plot_model,getTSNE
 from semisupervised.data_processing.utils import *
 from semisupervised.data_processing.contrastive_data import ContrastiveData
 from torch.nn import MSELoss
@@ -62,17 +62,23 @@ if __name__ == "__main__":
         model = LeNet2D(args.dropout,device,centers)
 #        model = LeNet(args.dropout,device)
 
-    loss_function = semi_mse_loss(centers)
+    loss_function = semi_mse_loss(centers,lam = 1)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
     # Train the semi-supervised model
     torch.save(model.state_dict(), 'model'+str(0)+'.pt')
+    tsne_dict = {} # For visualizing
+    nsamples = 5000
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
+        if args.tsne:
+            tsne_dict[epoch-1]=getTSNE(model,epoch,data_loaders,nsamples,device)
         run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
         test_model(model,epoch,data_loaders, MSELoss(), device,writer)
         torch.save(model.state_dict(), 'model'+str(epoch)+'.pt')
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
+    if args.tsne:
+        tsne_dict[epoch]=getTSNE(model,epoch,data_loaders,nsamples,device)
 
     plot_model(model, args.epochs, data_loaders, device, 'cluster_semi.png')
 
@@ -83,7 +89,7 @@ if __name__ == "__main__":
             model = SimpleNet(args.num_clusters,device)
         else:
             model = LeNet2D(args.dropout,device,centers)
-#            model = CenterLeNet(args.dropout,device)
+
 
         optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
         loss_function = MSELoss()
@@ -97,6 +103,10 @@ if __name__ == "__main__":
             torch.save(model.state_dict(), 'model'+str(epoch)+'.pt')
             print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
+
         plot_model(model, args.epochs, data_loaders, device,'cluster_supervised.png')
 
-    #torch.save(model,'CenterLeNet_saved')
+
+    if args.tsne:
+        torch.save(tsne_dict,'TSNE_dict')
+
