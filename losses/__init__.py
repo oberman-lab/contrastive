@@ -1,1 +1,1 @@
-from .losses import make_semi_sup_basic_loss
+from .losses import semi_mse_loss

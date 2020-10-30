@@ -11,3 +11,5 @@ def returnClosestCenter(centers, points):
     closest = centers[indicies, :]
     closest.requires_grad = True
     return closest
+
+    
