@@ -60,11 +60,12 @@ if __name__ == "__main__":
 
     # Train the semi-supervised model
     tsne_dict = {} # For visualizing
+    nsamples = 5000
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
         run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
         test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
-        tsne_dict[epoch] =getTSNE(model,epoch,data_loaders)
+        tsne_dict[epoch]=getTSNE(model,epoch,data_loaders,nsamples)
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
 
@@ -86,3 +87,4 @@ if __name__ == "__main__":
             print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
     torch.save(model.cpu(),'LeNet_saved')
+    torch.save(tsne_dict,'TSNE_dict')
