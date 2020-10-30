@@ -65,7 +65,7 @@ if __name__ == "__main__":
         t0 = time.time()
         run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
         test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
-        tsne_dict[epoch]=getTSNE(model,epoch,data_loaders,nsamples)
+        tsne_dict[epoch]=getTSNE(model,epoch,data_loaders,nsamples,device)
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
 
