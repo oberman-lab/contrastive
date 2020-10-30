@@ -3,7 +3,7 @@ import torch
 import torch.optim as optim
 from semisupervised.losses.losses import semi_mse_loss
 from semisupervised.nets import *
-from semisupervised.procedures import run_epoch, test_model, train_supervised, plot_model,getTSNE
+from semisupervised.procedures import run_epoch, test_model, train_supervised,getTSNE
 from semisupervised.data_processing.utils import *
 from semisupervised.data_processing.contrastive_data import ContrastiveData
 from torch.nn import MSELoss
