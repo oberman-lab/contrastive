@@ -9,7 +9,7 @@ from torchvision import datasets, transforms
 class ContrastiveData:
     '''Takes care of data for contrastive purposes'''
 
-    def __init__(self,fraction_labeled,data_directory,batch_size_labeled = 32, batch_size_unlabeled=32, dataset_name="MNIST",num_clusters=5, **kwargs):
+    def __init__(self,fraction_labeled,data_directory,centers,batch_size_labeled = 32, batch_size_unlabeled=32, dataset_name="MNIST",num_clusters=5, **kwargs):
         # Import train data
         self.batch_size_labeled = batch_size_labeled
         self.batch_size_unlabeled = batch_size_unlabeled
@@ -30,8 +30,8 @@ class ContrastiveData:
                 transforms.Normalize((0.1307,), (0.3081,))
             ]))
 
-            train_data = labels_to_centers(train_data,10)
-            test_data = labels_to_centers(test_data,10)
+            train_data = labels_to_centers(train_data,centers)
+            test_data = labels_to_centers(test_data,centers)
 
         elif dataset_name == "FashionMNIST":
             train_data = datasets.FashionMNIST(self.data_directory, train=True, download=True,
@@ -44,8 +44,8 @@ class ContrastiveData:
                 transforms.Normalize((0.2860,), (0.3205,))
             ]))
 
-            train_data = labels_to_centers(train_data,10)
-            test_data = labels_to_centers(test_data,10)
+            train_data = labels_to_centers(train_data,centers)
+            test_data = labels_to_centers(test_data,centers)
 
         elif dataset_name == "CIFAR10":
             train_data = datasets.CIFAR10(self.data_directory, train=True, download=True,
@@ -58,8 +58,8 @@ class ContrastiveData:
                 transforms.Normalize([0.4914, 0.4822, 0.4465],[0.2023, 0.1994, 0.2010])
             ]))
 
-            train_data = labels_to_centers(train_data,10)
-            test_data = labels_to_centers(test_data,10)
+            train_data = labels_to_centers(train_data,centers)
+            test_data = labels_to_centers(test_data,centers)
 
 
         elif dataset_name == "Projection":
@@ -74,6 +74,7 @@ class ContrastiveData:
         self.labeled_train_data = labeled_train_data
         self.unlabeled_train_data = UnlabeledDataset(unlabeled_train_data)
         self.test_data = test_data
+        self.unlabeled_train_data_with_labels = unlabeled_train_data
 
     def get_data_loaders(self):
         '''Get data loaders'''
@@ -83,25 +84,28 @@ class ContrastiveData:
         unlabeled_loader = torch.utils.data.DataLoader(self.unlabeled_train_data, batch_size=self.batch_size_unlabeled,
                                                        shuffle=True,
                                                        **self.kwargs)
+        
+        # dataset of the unlabeled images with the labels for plotting purposes
+        unlabeled_with_labels_loader = torch.utils.data.DataLoader(self.unlabeled_train_data_with_labels, batch_size=self.batch_size_unlabeled,shuffle=True,**self.kwargs)
+        
         test_loader = torch.utils.data.DataLoader(
             self.test_data,
             batch_size=1000, shuffle=True, **self.kwargs)
-        return {'labeled': labeled_loader, 'unlabeled': unlabeled_loader, 'test': test_loader}
-
+        return {'labeled': labeled_loader, 'unlabeled': unlabeled_loader, 'test': test_loader, 'unlabeled_with_labels': unlabeled_with_labels_loader}
 
 class labels_to_centers(Dataset):
-    ''' Simple class to convert labels from digits to one-hot centers'''
-
-    def __init__(self, input_dataset: Dataset,num_categories: int):
+    ''' Simple class to convert labels from digits to centers'''
+    
+    def __init__(self, input_dataset: Dataset, centers):
         self.input_dataset = input_dataset
-        self.eye = torch.eye(num_categories)
-
+        self.eye = centers.to("cpu")
+    
     def __len__(self):
         return len(self.input_dataset)
-
+    
     def __getitem__(self, idx:int):
         item, label = self.input_dataset.__getitem__(idx)
-        return item, self.eye[label]
+        return item, self.eye[label], label
 
 class UnlabeledDataset(Dataset):
     '''simple class that takes a dataset and strips its labels'''
@@ -113,7 +117,7 @@ class UnlabeledDataset(Dataset):
         return len(self.input_dataset)
 
     def __getitem__(self, idx:int):
-        item, label = self.input_dataset.__getitem__(idx)
+        item, _, _ = self.input_dataset.__getitem__(idx)
         return item
 
 class ProjectionData(Dataset):
