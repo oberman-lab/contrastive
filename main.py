@@ -70,6 +70,7 @@ if __name__ == "__main__":
         tsne_dict = {} # For visualizing
         nsamples = 5000
         makedirs('models', exist_ok=True)
+        torch.save(model,'./models/modelStruct')
 
     # Train the semi-supervised model
     for epoch in range(1, args.epochs + 1):
