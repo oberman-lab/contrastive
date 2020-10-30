@@ -13,7 +13,6 @@ if __name__ == "__main__":
     # Parse arguments
     parser = ContrastiveArgParser()
 
-
     args = parser.parse_args()
     args.cuda =False #False until proven otherwise
 
@@ -39,15 +38,24 @@ if __name__ == "__main__":
         num_clusters = args.num_clusters
         eye = torch.eye(2 * num_clusters, 2 * num_clusters)
         centers = eye[0:num_clusters, :].to(device)
+        model = SimpleNet(args.num_clusters,centers,device)
     else:
         num_clusters = 10
-        r = 1
-        pi = torch.acos(torch.zeros(1)).item() * 2
-        t = torch.true_divide(2*pi*torch.arange(10),10)
-        x = r * torch.cos(t)
-        y = r * torch.sin(t)
-        centers = torch.cat((x.view(-1,1), y.view(-1,1)), 1).to(device)
-#        centers = torch.eye(num_clusters, num_clusters).to(device)
+        if args.model == "LeNet2D":
+            r = 1
+            pi = torch.acos(torch.zeros(1)).item() * 2
+            t = torch.true_divide(2*pi*torch.arange(10),10)
+            x = r * torch.cos(t)
+            y = r * torch.sin(t)
+            centers = torch.cat((x.view(-1,1), y.view(-1,1)), 1).to(device)
+            model = LeNet2D(args.dropout,device,centers)
+        elif args.model == "LeNet":
+            centers = torch.eye(num_clusters, num_clusters).to(device)
+            model = LeNet(args.dropout,device,centers)
+
+
+
+
 
     # Get data
     data = ContrastiveData(args.frac_labeled, args.data_dir, centers, batch_size_labeled=args.batch_size_labeled,
@@ -55,11 +63,6 @@ if __name__ == "__main__":
                            num_clusters=num_clusters, **kwargs)
     data_loaders = data.get_data_loaders()
 
-    # Define model and accesories
-    if args.dataset == 'Projection':
-        model = SimpleNet(args.num_clusters,device)
-    else:
-        model = LeNet2D(args.dropout,device,centers)
 #        model = LeNet(args.dropout,device)
 
     loss_function = semi_mse_loss(centers,lam = 1)
@@ -109,4 +112,3 @@ if __name__ == "__main__":
 
     if args.tsne:
         torch.save(tsne_dict,'TSNE_dict')
-

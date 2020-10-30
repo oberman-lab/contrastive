@@ -17,11 +17,11 @@ def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_f
         unlabeled_images = unlabeled_images.to(device)
         labeled_images = labeled_images.to(device)
         centers_labels = centers_labels.to(device)
-        
+
         output = model(labeled_images)
         unlabeled_output = model(unlabeled_images)
         loss = loss_function(unlabeled_output, output, centers_labels)
-        
+
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
@@ -56,7 +56,6 @@ def test_model(model,current_epoch, data_loaders, loss_function, device,writer):
     test_loss = tnt.meter.AverageValueMeter()
     with torch.no_grad():
         for i,(data, target,labels) in enumerate(data_loaders['test']):
-
             data = data.to(device)
             target = target.to(device)
             output = model(data)
@@ -116,4 +115,3 @@ def getTSNE(model,current_epoch,data_loaders,nsamples,device):
     tsne = TSNE(n_components=2,random_state=13431).fit_transform(outputs) # Get TSNE reduction, random state for reproducibility
 
     return [tsne,labels]
-
