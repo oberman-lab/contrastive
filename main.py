@@ -64,21 +64,25 @@ if __name__ == "__main__":
     loss_function = semi_mse_loss(centers,lam = 1)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
-    # Train the semi-supervised model
+
     if args.track:
-        torch.save(model.state_dict(), 'model'+str(0)+'.pt')
         tsne_dict = {} # For visualizing
         nsamples = 5000
+
+    # Train the semi-supervised model
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
         if args.track:
             tsne_dict[epoch-1]=getTSNE(model,epoch,data_loaders,nsamples,device)
+            torch.save(model.state_dict(), 'model'+str(epoch-1)+'.pt')
+            
         run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
         test_model(model,epoch,data_loaders, MSELoss(), device,writer)
-        torch.save(model.state_dict(), 'model'+str(epoch)+'.pt')
+
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
     if args.track:
         tsne_dict[epoch]=getTSNE(model,epoch,data_loaders,nsamples,device)
+        torch.save(model.state_dict(), 'model'+str(epoch)+'.pt')
 
     # Train the supervised model for comparison
     if args.compare:

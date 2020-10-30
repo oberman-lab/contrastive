@@ -17,7 +17,7 @@ def run_epoch(model, current_epoch, data_loaders, optimizer, device, args,loss_f
         unlabeled_images = unlabeled_images.to(device)
         labeled_images = labeled_images.to(device)
         centers_labels = centers_labels.to(device)
-        
+
         output = model(labeled_images)
         unlabeled_output = model(unlabeled_images)
         loss = loss_function(unlabeled_output, output, centers_labels)
@@ -105,9 +105,9 @@ def getTSNE(model,current_epoch,data_loaders,nsamples,device):
     dataset = data_loaders['test'].dataset
     with torch.no_grad():
         for i in range(nsamples): # grab
-            data,label = dataset[i]
+            data,center,label = dataset[i]
             data = data.unsqueeze(0)
-            labels.append(torch.argmax(label).item())
+            labels.append(label.item())
             outputs.append(model(data).numpy()[0])
     print('Calculating TSNE reduction...')
     model.to(device)
