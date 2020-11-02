@@ -2,14 +2,14 @@ import math
 import torch
 import os
 import os.path
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, TensorDataset
 from torchvision import datasets, transforms
 
 
 class ContrastiveData:
     '''Takes care of data for contrastive purposes'''
 
-    def __init__(self,fraction_labeled,data_directory,batch_size_labeled = 32, batch_size_unlabeled=32, dataset_name="MNIST",num_clusters=5, **kwargs):
+    def __init__(self,fraction_labeled, data_directory, batch_size_labeled = 32, batch_size_unlabeled=32, dataset_name="MNIST",num_clusters=5, batch_by_anchor=False, **kwargs):
         # Import train data
         self.batch_size_labeled = batch_size_labeled
         self.batch_size_unlabeled = batch_size_unlabeled
@@ -19,19 +19,26 @@ class ContrastiveData:
         self.num_clusters = num_clusters
         train_data = None
         test_data = None
-        if dataset_name == "MNIST":
-            train_data = datasets.MNIST(self.data_directory, train=True, download=True,
-                                        transform=transforms.Compose([
+
+        loader_transform = transforms.Compose([
+                                            transforms.RandomHorizontalFlip(),
+                                            transforms.RandomResizedCrop(28),
                                             transforms.ToTensor(),
                                             transforms.Normalize((0.1307,), (0.3081,))
-                                        ]))
-            test_data = datasets.MNIST(self.data_directory, train=False, transform=transforms.Compose([
-                transforms.ToTensor(),
-                transforms.Normalize((0.1307,), (0.3081,))
-            ]))
+                                        ])
+        #if batch_by_anchor:
+            #transformer = torch.nn.Sequential(
+            #transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
+            #transforms.CenterCrop(10),
+            #)
+            #loader_transform = torch.jit.script(transformer)
+        if dataset_name == "MNIST":
+            train_data = datasets.MNIST(self.data_directory, train=True, download=True,
+                                        transform=loader_transform)
+            test_data = datasets.MNIST(self.data_directory, train=False, transform=loader_transform)
 
-            train_data = labels_to_centers(train_data,10)
-            test_data = labels_to_centers(test_data,10)
+            #train_data = labels_to_centers(train_data,10)
+            #test_data = labels_to_centers(test_data,10)
 
         elif dataset_name == "FashionMNIST":
             train_data = datasets.FashionMNIST(self.data_directory, train=True, download=True,
@@ -103,6 +110,15 @@ class labels_to_centers(Dataset):
         item, label = self.input_dataset.__getitem__(idx)
         return item, self.eye[label]
 
+
+class RepeatingDataset(TensorDataset):
+    '''Repeat Dataset along one dimention along an extra dimension'''
+    def __init__(self, samples, num_repeats):
+        super().__init__(*(num_repeats*samples))
+    def __getitem__(self, idx):
+        thing = self.dataset[idx]
+        return tuple(thing for i in range(self.num_repeats))
+
 class UnlabeledDataset(Dataset):
     '''simple class that takes a dataset and strips its labels'''
 
@@ -115,6 +131,11 @@ class UnlabeledDataset(Dataset):
     def __getitem__(self, idx:int):
         item, label = self.input_dataset.__getitem__(idx)
         return item
+
+
+class IndexLabeledData(Dataset):
+    def __init__(self, input_dataset: Dataset):
+        self.dataset_elements = self.input_dataset()
 
 class ProjectionData(Dataset):
     ''' Toy dataset with data seperated into [x,y] where x is perfectly clustered and y is noise
@@ -191,3 +212,5 @@ class ProjectionData(Dataset):
             torch.save((training_data,training_labels), f)
         with open(os.path.join(self.datafolder, self.test_file), 'wb') as f:
             torch.save((test_data,test_labels), f)
+
+

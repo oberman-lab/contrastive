@@ -3,6 +3,7 @@ import argparse
 import pytest
 import traceback
 from arg_parser import ContrastiveArgParser
+import numpy as np
 from data_processing.contrastive_data import *
 
 ''' Install pytest - navigate to this directory - call pytest - pray nothing broke'''
@@ -96,3 +97,18 @@ def test_cycle_with():
     for elt in cycle_with(unlabeled, labeled):
         check.append(elt)
     assert check == result, "Iterator not working"
+
+def test_run_avg():
+    from utils import RunningAvg
+    run = RunningAvg()
+    hi = [1]*100
+    for elt in hi:
+        run.add(elt)
+    assert(run.get()==1)
+    run.wipe()
+
+    hello = np.arange(10)
+    for elt in hello:
+        run.add(elt)
+
+    assert(run.get() == 4.5)

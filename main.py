@@ -4,7 +4,7 @@ import torch.optim as optim
 
 from losses.losses import semi_mse_loss
 from nets import *
-from procedures import run_epoch, test_model, train_supervised
+from procedures import *
 from data_processing.utils import *
 from data_processing.contrastive_data import ContrastiveData
 from torch.nn import MSELoss
@@ -29,7 +29,7 @@ if __name__ == "__main__":
         print('  ', p[0] + ': ', p[1])
     print('\n')
     kwargs = {'num_workers': 0, 'pin_memory': True} if args.cuda else {}
-
+    kwargs['batch_by_anchor'] = args.batch_by_anchor
     if args.log_dir != "None":
         writer = SummaryWriter(log_dir = args.log_dir)
     else:
@@ -62,8 +62,9 @@ if __name__ == "__main__":
     # Train the semi-supervised model
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
-        run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
-        test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
+        train_unsupervised_wrapped(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
+        #run_epoch(model, epoch,data_loaders, optimizer, device,args ,loss_function,writer)
+        #test_model(model,epoch,data_loaders, MSELoss(),centers, device,writer)
         print('Wall clock time for epoch: {}'.format(time.time() - t0))
 
 

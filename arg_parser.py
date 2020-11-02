@@ -28,3 +28,4 @@ class ContrastiveArgParser(argparse.ArgumentParser):
         self.add_argument('--log-dir', type=str, default='None', metavar='LDIR')
         self.add_argument('--log-interval', type=int, default=100, metavar='LOGI')
         self.add_argument('--loss-function', type=str, default='MSELoss', metavar='LF')
+        self.add_argument('--batch-by-anchor', type=bool, default=False, metavar='BA')

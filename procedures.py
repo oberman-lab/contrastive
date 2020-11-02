@@ -50,6 +50,25 @@ def train_supervised(model,current_epoch,data_loaders,optimizer,device,args,loss
     if writer is not None:
         writer.add_scalar('train/loss/fully', loss,current_epoch)
 
+
+def train_unsupervised_wrapped(model,current_epoch,data_loaders, optimizer, device,args,loss_function,writer = None):
+    model.train()
+    for batch_ix, data in enumerate(data_loaders['unlabeled']):
+
+        data = data.to(device)
+        output = model(data)
+        loss = loss_function(output)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        if batch_ix % (args.log_interval//5) == 0 and batch_ix > 0:
+            print('Fully Supervised: [Epoch %2d, batch %3d] training loss: %.4f' %
+                  (current_epoch, batch_ix, loss))
+    if writer is not None:
+        writer.add_scalar('train/loss/fully', loss,current_epoch)
+
+
 def test_model(model,current_epoch, data_loaders, loss_function,centers, device,writer):
     model.eval()
     top1 = tnt.meter.ClassErrorMeter(accuracy = True)
