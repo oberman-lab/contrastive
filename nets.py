@@ -88,7 +88,7 @@ class VisualHeadSecond(nn.Module):
 
     def __init__(self, device, batch_size):
         super(VisualHeadSecond, self).__init__()
-        self.m = nn.Linear(2, batch_size).to(device)
+        self.m = nn.Linear(2, batch_size, bias=False).to(device)
 
     def forward(self, x):
         return self.m(x)

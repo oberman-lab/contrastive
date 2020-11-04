@@ -5,15 +5,15 @@ from torchvision.transforms import *
 from torch.utils.data import DataLoader
 from nets import *
 from torch import optim, nn
-from utils import set_requires_grad, RunningAvg
+from utils import *
 from torch.utils.tensorboard import SummaryWriter
 import torchvision
 import numpy as np
 import matplotlib.pyplot as plt
 
-batch_size = 32
+batch_size = 8
 img_size = 32
-num_augments = 4
+num_augments = 5
 
 device = torch.device('cpu')
 if torch.cuda.is_available():
@@ -93,15 +93,19 @@ for current_epoch in range(num_epoch):
         for j in range(num_pre_train_head):
             visual_head_optimizer.zero_grad()
             twod_features = feature_learner_first(element)
-            fig = plt.subplot()
-            points = np.transpose(twod_features.cpu().detach().numpy())
-            fig.plot(points[0], points[1], '.')
-            plt.show()
 
             logits = feature_learner_second(twod_features)
-            loss = cross_entropy_loss(logits, labels_index)
+            loss = cross_entropy_loss(logits, labels_index, labels_index)
             loss.backward()
             visual_head_optimizer.step()
+
+        points = np.transpose(twod_features.cpu().detach().numpy())
+        weight_vectors = feature_learner_second.m.weight.data.cpu().numpy().transpose()
+
+        fig = plot_by_categories(points[0], points[1], labels_index.cpu().numpy(), weight_vectors, batch_size,
+                                 batch_size * num_augments)
+
+        plt.show()
 
         #Train the encoder
         run_avg.wipe()
