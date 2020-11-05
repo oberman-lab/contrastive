@@ -10,10 +10,12 @@ from torch.utils.tensorboard import SummaryWriter
 import torchvision
 import numpy as np
 import matplotlib.pyplot as plt
+import time
+import torch.nn.functional as f
 
 batch_size = 8
 img_size = 32
-num_augments = 5
+num_augments = 1
 
 device = torch.device('cpu')
 if torch.cuda.is_available():
@@ -54,7 +56,7 @@ def rebatch_with_labels(input):
     return input
 
 #log data
-writer = SummaryWriter('logs')
+writer = SummaryWriter(f"logs/run_{time.time()}")
 run_avg = RunningAvg()
 
 # Instantiate the networks
@@ -68,21 +70,24 @@ feature_learner_second = visual_head_second #just an alias
 final_classifier = Final_Classifier(encoder, fine_tuning_head,device)
 
 #Optimise the visual head only
-visual_head_optimizer = optim.SGD(list(visual_head_first.parameters()) + list(visual_head_second.parameters()), 0.001, 0.9, 0.1)
+visual_head_optimizer = optim.SGD(list(visual_head_first.parameters()) + list(visual_head_second.parameters()), 0.01,0.9, 0.1)
+visual_head_optimizer = optim.Adam(list(visual_head_first.parameters()) + list(visual_head_second.parameters()), 0.01)
 
 #Optimise the encoder with the visual head
 feature_learning_optimizer = optim.SGD(list(feature_learner_first.parameters()) + list(feature_learner_second.parameters()), 0.001, 0.9, 0.1)
 
 #optimise the fine-tuning layer
-fine_tuning_optimizer = optim.SGD(fine_tuning_head.parameters(), 0.001, 0.9, 0.1)
+fine_tuning_optimizer = optim.SGD(fine_tuning_head.parameters(), 0.0001, 0.99, 0.1)
 
 #Our Cross-Entropy loss
 cross_entropy_loss = nn.CrossEntropyLoss()
+#cosine_sim = lambda x,  y: nn.NLLLoss()(nn.CosineSimilarity(dim=-1)(x,y))
 
 # Train the encoder
 num_epoch = 3
-num_pre_train_head = 5
+num_pre_train_head = 1000
 num_train_encoder = 10
+write_interval = 10
 
 for current_epoch in range(num_epoch):
     for i, current_batch in enumerate(loader):
@@ -94,14 +99,20 @@ for current_epoch in range(num_epoch):
             visual_head_optimizer.zero_grad()
             twod_features = feature_learner_first(element)
 
-            logits = feature_learner_second(twod_features)
-            loss = cross_entropy_loss(logits, labels_index, labels_index)
+            logits = feature_learner_second(twod_features) #gives cosine similarity
+            loss = cross_entropy_loss(logits, labels_index)
+            #loss = cosine_sim(logits, labels_one_hot)
+            run_avg.add(loss)
+            if j%write_interval ==0:
+                writer.add_scalar("loss_head", run_avg.get(), j)
             loss.backward()
             visual_head_optimizer.step()
+            #feature_learner_second.re_norm_weights()
 
+        writer.close()
         points = np.transpose(twod_features.cpu().detach().numpy())
         weight_vectors = feature_learner_second.m.weight.data.cpu().numpy().transpose()
-
+        weight_vectors = weight_vectors / np.sqrt(weight_vectors[0,0]**2+ weight_vectors[1,0]**2)
         fig = plot_by_categories(points[0], points[1], labels_index.cpu().numpy(), weight_vectors, batch_size,
                                  batch_size * num_augments)
 

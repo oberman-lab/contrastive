@@ -44,7 +44,7 @@ def plot_by_categories(x, y, labels, weight_vectors, num_classes, num_points):
 
     # make the scatter
     scat = ax.scatter(x, y, c=labels, s=2000 / num_points, cmap=cmap, norm=norm)
-    ax.scatter(weight_vectors[0], weight_vectors[1],s=100,c="black", marker="P")
+    ax.scatter(weight_vectors[0], weight_vectors[1],s=100,c=np.arange(num_classes), cmap=cmap, marker="P")
     # create the colorbar
     cb = plt.colorbar(scat, spacing='proportional', ticks=bounds)
     cb.set_label('Custom cbar')

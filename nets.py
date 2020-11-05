@@ -1,5 +1,5 @@
 from torch import nn as nn
-
+import torch
 
 class SimpleNet(nn.Module):  # With Projection data we should see the identity map from R^n to R^N/2
     '''Let's define the simplest network I can'''
@@ -84,14 +84,36 @@ class VisualHeadFirst(nn.Module):
     def forward(self, x):
         return self.m(x)
 
+class VisualHeadSecondCosined(nn.Module):
+
+    def __init__(self, device, batch_size):
+        super(VisualHeadSecondCosined, self).__init__()
+        #self.m = torch.nn.functional.normalize(torch.rand(1,batch_size, 2), dim=1).repeat(batch_size, 1,1)
+        #self.m.requires_grad_(True)
+        #self.cos_sim = nn.CosineSimilarity(dim=-1)
+        self.m = nn.Linear(2, batch_size, bias=False).to(device)
+
+    def re_norm_weights(self):
+        with torch.no_grad():
+            self.m.weight.div_(torch.norm(self.m.weight, dim=1, keepdim=True))
+
+    def forward(self, x):
+        normed_x = nn.functional.normalize(x,dim=1)
+        return self.m(normed_x)
+
+
 class VisualHeadSecond(nn.Module):
 
     def __init__(self, device, batch_size):
         super(VisualHeadSecond, self).__init__()
+        #self.m = torch.nn.functional.normalize(torch.rand(1,batch_size, 2), dim=1).repeat(batch_size, 1,1)
+        #self.m.requires_grad_(True)
+        #self.cos_sim = nn.CosineSimilarity(dim=-1)
         self.m = nn.Linear(2, batch_size, bias=False).to(device)
 
     def forward(self, x):
         return self.m(x)
+
 
 class Fine_Tuning_Head(nn.Module):
 
