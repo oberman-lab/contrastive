@@ -15,7 +15,7 @@ import torch.nn.functional as f
 
 batch_size = 8
 img_size = 32
-num_augments = 1
+num_augments = 15
 
 device = torch.device('cpu')
 if torch.cuda.is_available():
@@ -70,8 +70,7 @@ feature_learner_second = visual_head_second #just an alias
 final_classifier = Final_Classifier(encoder, fine_tuning_head,device)
 
 #Optimise the visual head only
-visual_head_optimizer = optim.SGD(list(visual_head_first.parameters()) + list(visual_head_second.parameters()), 0.01,0.9, 0.1)
-visual_head_optimizer = optim.Adam(list(visual_head_first.parameters()) + list(visual_head_second.parameters()), 0.01)
+visual_head_optimizer = optim.SGD(list(visual_head_first.parameters()) + list(visual_head_second.parameters()), 0.005,0.9, 0.1)
 
 #Optimise the encoder with the visual head
 feature_learning_optimizer = optim.SGD(list(feature_learner_first.parameters()) + list(feature_learner_second.parameters()), 0.001, 0.9, 0.1)
@@ -86,7 +85,7 @@ cross_entropy_loss = nn.CrossEntropyLoss()
 # Train the encoder
 num_epoch = 3
 num_pre_train_head = 1000
-num_train_encoder = 10
+num_train_encoder = 1000
 write_interval = 10
 
 for current_epoch in range(num_epoch):
@@ -109,7 +108,7 @@ for current_epoch in range(num_epoch):
             visual_head_optimizer.step()
             #feature_learner_second.re_norm_weights()
 
-        writer.close()
+        #writer.close()
         points = np.transpose(twod_features.cpu().detach().numpy())
         weight_vectors = feature_learner_second.m.weight.data.cpu().numpy().transpose()
         weight_vectors = weight_vectors / np.sqrt(weight_vectors[0,0]**2+ weight_vectors[1,0]**2)
@@ -130,8 +129,9 @@ for current_epoch in range(num_epoch):
             loss.backward()
             feature_learning_optimizer.step()
 
-        writer.add_scalar('Loss/train', run_avg.get(), )
-
+        writer.add_scalar('loss_encoder', run_avg.get(), i)
+    print("epoch happened")
+writer.close()
 
 
 
